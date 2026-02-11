@@ -73,3 +73,8 @@ services:
     restart: always
     depends_on:
       - proxy
+
+volumes:
+  certs:
+  vhost:
+  html:
