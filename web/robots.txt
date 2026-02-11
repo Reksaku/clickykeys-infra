@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+Disallow: /db_php/
+Disallow: /api/
+
+Disallow: /*?fbclid=
+Disallow: /*?utm_*
+
+Sitemap: https://clickykeys.fun/sitemap.xml

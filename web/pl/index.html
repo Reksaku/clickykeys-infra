@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+
+    <meta charset="UTF-8" />
+    <title>ClickyKeys – licz swoje klawisze i kliknięcia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ClickyKeys – mała aplikacja dla graczy i geeków, która liczy wciskane klawisze i przyciski myszy i pokazuje je w konfigurowalnym panelu. Idealne do streamów i nagrań." />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="ClickyKeys" />
+    <meta property="og:description" content="Licz swoje klawisze i kliknięcia w konfigurowalnym panelu." />
+    <meta property="og:image" content="https://clickykeys.fun/img/clickykeys-main.png" />
+    <meta property="og:type" content="website" />
+
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="en" href="https://clickykeys.fun/" />
+    <link rel="alternate" hreflang="pl" href="https://clickykeys.fun/pl/" />
+    <link rel="alternate" hreflang="x-default" href="https://clickykeys.fun/" />
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/theme-light.css">
+    <link rel="icon" type="image/png" href="/img/Icon.png">
+
+    <!-- Tracking -->
+    <script src="/js/track.js" defer></script>
+
+</head>
+
+<body>
+
+<div class="wrapper">
+    <header>
+        <div class="logo">
+            <div class="logo-icon">
+                <img src="/img/Icon.png" alt="ClickyKeys logo">
+            </div>
+            <div>
+                <div class="logo-text-main">ClickyKeys</div>
+                <div class="logo-text-sub">
+                    Key & click counter dla graczy i geeków
+                </div>
+            </div>
+        </div>
+
+        <nav>
+            <a href="#features">Funkcje</a>
+            <a href="#downloads">Pobierz</a>
+            <a href="#screenshots">Screeny</a>
+            <a href="#faq">FAQ</a>
+            <a href="https://github.com/Reksaku/ClickyKeys" target="_blank" rel="noopener">GitHub</a>
+
+            <!-- language switch -->
+            <div class="lang-switch">
+                <a class="lang-btn active"
+                href="/pl/"
+                onclick="try{localStorage.setItem('ck_lang_preference','pl');}catch(e){}">
+                PL
+                </a>
+                <a class="lang-btn"
+                href="/"
+                onclick="try{localStorage.setItem('ck_lang_preference','en');}catch(e){}">
+                EN
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+            <div>
+                <div class="hero-kicker">Kliknij. Wciśnij. Policz.</div>
+
+                <h1 class="hero-title">
+                    Liczenie klawiszy i kliknięć <span>w jednym panelu</span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    ClickyKeys zlicza, ile razy wciskasz wybrane klawisze i przyciski myszy
+                    i wyświetla je w w pełni konfigurowalnym panelu – idealnym do streamów,
+                    nagrań i zwykłego geekowania.
+                </p>
+
+                <div class="hero-badges">
+                    <div class="hero-badge">Windows • aplikacja desktopowa</div>
+                    <div class="hero-badge">Konfigurowalne klawisze i nazwy</div>
+                    <div class="hero-badge">Rainbow theme + OBS friendly</div>
+                </div>
+
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="https://apps.microsoft.com/store/detail/9PJT83WPC06K?cid=DevShareMCLPCS"
+                       id="download-btn" data-track-click data-track-label="Download ClickyKeys"
+                       target="_blank" rel="noopener">
+                        ⬇ Pobierz ClickyKeys
+                    </a>
+
+                    <a class="btn btn-ghost" href="https://github.com/Reksaku/ClickyKeys"
+                       id="github-btn" data-track-click data-track-label="GitHub Repo"
+                       target="_blank" rel="noopener">
+                        ★ Zobacz na GitHub
+                    </a>
+                </div>
+
+                <div class="hero-note">
+                    Otwarty kod (<strong>GPL-3.0</strong>).
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES -->
+        <section id="features" class="section">
+            <h2 class="section-title">Co potrafi ClickyKeys?</h2>
+            <p class="section-subtitle">
+                Mały projekt hobbystyczny, który szybko okazał się zaskakująco użyteczny.
+            </p>
+
+            <div class="features-grid">
+
+                <article class="feature-card">
+                    <div class="feature-kicker">Liczenie</div>
+                    <div class="feature-title">Dowolne klawisze i przyciski myszy</div>
+                    <div class="feature-body">
+                        <ul>
+                            <li>Wybierz klawisze z klawiatury i przyciski myszy, które chcesz śledzić.</li>
+                            <li>Każdemu klawiszowi ustaw własny opis (np. <em>Jump</em>, <em>Reload</em>).</li>
+                            <li>Liczniki aktualizują się w czasie rzeczywistym.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-kicker">Wygląd</div>
+                    <div class="feature-title">Konfigurowalny panel</div>
+                    <div class="feature-body">
+                        <ul>
+                            <li>Zmieniaj rozmiar przycisków i układ panelu.</li>
+                            <li>Dobierz kolory tła i tekstu do swojego motywu.</li>
+                            <li>Wybierz ulubioną czcionkę i jej rozmiar.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-kicker">Kolory</div>
+                    <div class="feature-title">Eksperymentalny rainbow theme</div>
+                    <div class="feature-body">
+                        Tęczowa, animowana wersja tła – przyciąga uwagę widzów i nadaje overlayowi streamerowego klimatu.
+                    </div>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-kicker">Streaming</div>
+                    <div class="feature-title">Przyjazne OBS</div>
+                    <div class="feature-body">
+                        <ul>
+                            <li>Kolor tła zaprojektowany z myślą o łatwym chroma key.</li>
+                            <li>Idealne jako mały panel z klawiszami w rogu ekranu.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-kicker">Kontrola</div>
+                    <div class="feature-title">Reset jednym klawiszem</div>
+                    <div class="feature-body">
+                        Znudziły Ci się statystyki? Wciśnij <strong>F12</strong> i wyzeruj liczniki, zaczynając świeżą sesję.
+                    </div>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-kicker">Open source</div>
+                    <div class="feature-title">GPL-3.0 & C#</div>
+                    <div class="feature-body">
+                        Aplikacja napisana w C#, licencja GPL-3.0 – możesz przejrzeć kod,
+                        uczyć się na nim albo dołożyć własne usprawnienia.
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- DOWNLOADS -->
+        <section id="downloads" class="section">
+
+            <h2 class="section-title">Pobierz ClickyKeys</h2>
+            <p class="section-subtitle">
+                Najnowsze wydania znajdziesz zawsze na GitHubie.
+                Możesz też hostować plik na swoim serwerze i linkować go bezpośrednio stąd.
+            </p>
+
+            <div class="downloads-grid">
+
+                <div>
+                    <div class="download-card">
+                        <div class="download-card-header">
+                            <div>Oficjalna dystrybucja</div>
+                            <div class="download-tag">Rekomendowane</div>
+                        </div>
+                        <div class="download-card-body">
+                            Najprostrze rozwiązanie - aplikacja zweryfikowana i instalowana przez Sklep Microsoft.
+                        </div>
+                        <div class="download-links">
+                            <a class="download-link"
+                               href="https://apps.microsoft.com/store/detail/9PJT83WPC06K?cid=DevShareMCLPCS"
+                               target="_blank" rel="noopener">
+                                <strong>⬇ Sklep Microsoft</strong>
+                                <span>(Windows)</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="download-card">
+                        <div class="download-card-header">
+                            <div>Stabilne wydanie</div>
+                            <div class="download-tag">Wersja przenośna</div>
+                        </div>
+                        <div class="download-card-body">
+                            Skompilowany program ClickyKeys - bez konieczności instalacji.
+                        </div>
+                        <div class="download-links">
+                            <a class="download-link"
+                               href="https://github.com/Reksaku/ClickyKeys/releases/latest"
+                               target="_blank" rel="noopener">
+                                <strong>⬇ GitHub Releases</strong>
+                                <span>(Windows)</span>
+                            </a>
+                        </div>
+                        <div class="download-note">
+                            W razie problemów dodaj aplikacje do wyjątków antywirusa.
+                        </div>
+                    </div>
+
+                    <div class="download-card">
+                        <div class="download-card-header">
+                            <div>Kod źródłowy</div>
+                            <div class="download-tag">Dla devów</div>
+                        </div>
+                        <div class="download-card-body">
+                            Chcesz przejrzeć kod, zbudować własną wersję lub dodać funkcję?
+                            Repozytorium jest w pełni otwarte.
+                        </div>
+                        <div class="download-links">
+                            <a class="download-link"
+                               href="https://github.com/Reksaku/ClickyKeys"
+                               target="_blank" rel="noopener">
+                                <strong>Git clone</strong>
+                                <span>VS / Rider / etc.</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="margin-top:0;font-size:14px;">Jak zacząć w 30 sekund?</h3>
+                    <ol class="howto-list">
+                        <li>Pobierz aplikację z sekcji powyżej.</li>
+                        <li>Uruchom ClickyKeys.</li>
+                        <li>Kliknij w panel i wybierz klawisze, które chcesz śledzić.</li>
+                        <li>Ustaw etykiety (np. <em>Spacja / Skok</em>, <em>R / Przeładowanie</em>).</li>
+                        <li>W OBS dodaj źródło okna, ustaw klucz koloru bądź przeźroczystość i dopasuj overlay.</li>
+                    </ol>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SCREENSHOTS -->
+        <section id="screenshots" class="section">
+            <h2 class="section-title">Jak to wygląda?</h2>
+
+            <p class="section-subtitle">
+                W podstawowej wersji ClickyKeys to intuicyjny panel statystyk.
+            </p>
+
+            <figure class="screenshot small">
+                <img src="/img/Animation.gif" alt="Panel ClickyKeys z licznikami klawiszy"/>
+            </figure>
+
+            <br>
+
+            <p class="section-subtitle">
+                A jeśli nudzi Cię jeden kolor – możesz postawić na gamingową tęczę.
+            </p>
+
+            <figure class="screenshot large">
+                <img src="/img/Rainbow_animation.gif" alt="ClickyKeys z włączonym motywem rainbow"/>
+            </figure>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="section">
+            <h2 class="section-title">FAQ</h2>
+            <p class="section-subtitle">
+                Najczęstsze pytania, które mogą się pojawić u użytkowników.
+            </p>
+
+            <div class="faq-grid">
+
+                <div>
+                    <div class="faq-item">
+                        <div class="faq-q">Czy ClickyKeys zapisuje moje dane lub wysyła je gdzieś?</div>
+                        <div>
+                            Nie. Aplikacja po prostu zlicza lokalnie Twoje kliknięcia i klawisze
+                            oraz wyświetla je w panelu. Kod jest otwarty – możesz to samemu sprawdzić w repozytorium.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-q">Na jakich systemach to działa?</div>
+                        <div>
+                            Obecnie projekt jest tworzony z myślą o Windows (aplikacja desktopowa).
+                            Jeżeli chcesz pomóc z portem na inne systemy – odezwij się przez GitHub.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-q">Czy mogę zmienić wygląd panelu?</div>
+                        <div>
+                            Tak. Możesz zmieniać układ, rozmiar przycisków, kolory, czcionkę
+                            i skorzystać z eksperymentalnego motywu tęczowego.
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="faq-item">
+                        <div class="faq-q">Chcę zgłosić błąd lub propozycję funkcji.</div>
+                        <div>
+                            Najlepiej załóż issue na GitHubie w repo
+                            <a href="https://github.com/Reksaku/ClickyKeys"
+                               target="_blank" rel="noopener">Reksaku/ClickyKeys</a>.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-q">Plany rozwoju?</div>
+                        <div>
+                            W planach są m.in. profile stylów i bardziej rozbudowane statystyki.
+                            Szczegóły znajdziesz w repozytorium projektu.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div>
+            © <span id="year"></span> ClickyKeys · projekt hobbystyczny
+        </div>
+        <div class="footer-links">
+            <a href="https://github.com/Reksaku/ClickyKeys" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://apps.microsoft.com/store/detail/9PJT83WPC06K?cid=DevShareMCLPCS">Pobierz</a>
+        </div>
+    </footer>
+</div>
+
+<script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

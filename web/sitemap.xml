@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+      xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+
+<url>
+  <loc>https://clickykeys.fun/</loc>
+  <xhtml:link rel="alternate" hreflang="en" href="https://example.com/index" />
+  <xhtml:link rel="alternate" hreflang="pl" href="https://example.com/index_pl" />
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/index" />
+  <lastmod>2025-11-26T14:48:03+00:00</lastmod>
+</url>
+<url>
+  <loc>https://clickykeys.fun/pl/</loc>
+  <xhtml:link rel="alternate" hreflang="pl" href="https://example.com/index_pl" />
+  <xhtml:link rel="alternate" hreflang="en" href="https://example.com/index" />
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/index" />
+  <lastmod>2025-11-26T14:48:03+00:00</lastmod>
+</url>
+
+</urlset>

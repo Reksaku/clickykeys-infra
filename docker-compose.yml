@@ -1,0 +1,75 @@
+services:
+  website:
+    image: nginx:alpine
+    container_name: ${HOST}-website
+    restart: always
+    environment:
+      VIRTUAL_HOST: ${VIRTUAL_HOST}
+      LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+    expose:
+      - "80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./web:/var/www/html:ro
+    depends_on:
+      - php
+
+  php:
+    build: ./php-fpm
+    container_name: ${HOST}-php
+    restart: always
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./web:/var/www/html
+
+  # --- DATABASE ---
+  db:
+    image: mysql:8.0
+    container_name: ${HOST}-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - ./dbdata:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d:ro
+
+  # --- REVERSE PROXY ---
+  proxy:
+    image: jwilder/nginx-proxy
+    container_name: ${HOST}-nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+    restart: always
+    labels:
+      - "com.github.nginx-proxy.nginx-proxy"
+
+  # --- LET'S ENCRYPT ---
+  letsencrypt:
+    image: nginxproxy/acme-companion
+    container_name: ${HOST}-letsencrypt
+    environment:
+      - NGINX_PROXY_CONTAINER=${HOST}-nginx-proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+    restart: always
+    depends_on:
+      - proxy

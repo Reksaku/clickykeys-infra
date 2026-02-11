@@ -1,0 +1,230 @@
+/* theme-light.css – jasny, „app-like” motyw dla ClickyKeys */
+
+/* Palette & tokens */
+:root {
+    --bg: #f5f5fb;
+    --bg-alt: #ffffff;
+    --accent: #3b82f6;
+    --accent-soft: rgba(59, 130, 246, 0.16);
+    --accent-2: #0f766e;
+    --text: #0f172a;
+    --muted: #6b7280;
+    --border: #e2e8f0;
+
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 999px;
+
+    --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.12);
+}
+
+/* Tło strony */
+body {
+    background: radial-gradient(circle at top, #e0f2fe 0, #f5f5fb 55%);
+    color: var(--text);
+}
+
+/* ==========
+   Layout / sekcje
+   ========== */
+
+.wrapper {
+    /* zostaw max-width itd. z base.css – tu tylko opcjonalny efekt „card” */
+}
+
+/* główne sekcje */
+.section {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+/* kartki w sekcjach */
+.feature-card,
+.download-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+}
+
+/* hero – trochę więcej „powietrza” na jasnym */
+.hero {
+    padding: 32px 0 40px;
+}
+
+/* nagłówek lekko „pastylkowy” */
+header {
+    border-radius: 999px;
+}
+
+/* ==========
+   Tekst / linki
+   ========== */
+
+.section-title {
+    color: var(--text);
+}
+
+.section-subtitle {
+    color: var(--muted);
+}
+
+a {
+    color: var(--accent);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ==========
+   Nawigacja, przełączniki
+   ========== */
+
+nav a {
+    color: var(--muted);
+}
+
+nav a:hover {
+    color: var(--text);
+}
+
+/* przełącznik języków + motywów – jasne pastylki */
+.lang-btn,
+.theme-btn {
+    background: #eef2ff;
+    color: var(--muted);
+    border: 1px solid var(--border);
+}
+
+.lang-btn.active,
+.theme-btn.active {
+    border-color: var(--accent);
+    color: var(--text);
+}
+
+/* ==========
+   Hero / badge / karty
+   ========== */
+
+.hero-kicker {
+    color: var(--accent-2);
+}
+
+.hero-subtitle {
+    color: var(--muted);
+}
+
+.hero-badge {
+    background: #eef2ff;
+    border: 1px solid var(--border);
+    color: var(--muted);
+}
+
+/* „key-pille” – jasne kapsułki zamiast ciemnych */
+.key-pill {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+}
+
+.key-pill-keycap {
+    background: #ffffff;
+    border-color: #d1d5db;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+    color: var(--text);
+}
+
+.key-pill-desc {
+    color: var(--muted);
+}
+
+/* hero „karta” (jeśli jej używasz) */
+.hero-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.1);
+}
+
+.hero-card-body {
+    background: #f9fafb;
+    border-color: #e5e7eb;
+}
+
+/* małe tagi */
+.hero-card-tag,
+.download-tag {
+    background: #eef2ff;
+    border-color: var(--border);
+    color: var(--accent-2);
+}
+
+/* ==========
+   Przyciski
+   ========== */
+
+.btn-primary {
+    background: linear-gradient(120deg, #3b82f6, #60a5fa);
+    color: #f9fafb;
+    box-shadow: 0 12px 25px rgba(37, 99, 235, 0.35);
+    border: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 30px rgba(37, 99, 235, 0.4);
+}
+
+.btn-ghost {
+    background: #eef2ff;
+    color: var(--text);
+    border-color: var(--border);
+}
+
+.btn-ghost:hover {
+    border-color: var(--accent-soft);
+}
+
+/* linki pobierania */
+.download-link {
+    background: #eef2ff;
+    border: 1px solid var(--border);
+    color: var(--muted);
+}
+
+.download-link strong {
+    color: var(--text);
+}
+
+/* ==========
+   Zrzuty ekranu
+   ========== */
+
+/* zrzuty mogą zostać na czarnym tle – ładnie eksponuje gif */
+.screenshot {
+    background: #000000;
+    border-color: var(--border);
+}
+
+/* ==========
+   FAQ / listy
+   ========== */
+
+.faq-q {
+    color: var(--text);
+}
+
+.faq-grid {
+    color: var(--muted);
+}
+
+.howto-list {
+    color: var(--muted);
+}
+
+/* ==========
+   Stopka
+   ========== */
+
+footer {
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+}
