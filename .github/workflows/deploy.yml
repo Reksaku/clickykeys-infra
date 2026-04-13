@@ -5,14 +5,38 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout kodu
+      - name: Code checkout
         uses: actions/checkout@v4
+        with: 
+          node-version: 22
 
-      - name: Deploy na EC2
+      - name: PHP check
+        run: |
+          sudo apt-get install -y php-cli
+          find ./web -name "*.php" -exec php -l {} \;
+          echo "PHP files with status OK" 
+
+      - name: Validate docker-compose.yml
+        run: docker compose config --quiet
+
+      - name: Verify passwords in .env.example
+        run: |
+          if grep -E "(password|secret|key)\s*=\s*['\"]?[a-zA-Z0-9!@#\$%]{8,}" .env.example; then
+            echo "ERROR: .env.example contains passwords!"
+            exit 1
+          fi
+          echo "env.example OK"
+          
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Deploy to EC2
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.EC2_HOST }}
