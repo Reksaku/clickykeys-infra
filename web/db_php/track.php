@@ -77,7 +77,9 @@ if (
     !(
         str_starts_with($path, "/pl/") ||
         str_starts_with($path, "/?utm_source") ||
-        $path === "/"
+	str_starts_with($path, "/qr") ||
+	str_starts_with($path, "/update") ||
+	$path === "/"
     )
 ) {
     $path = "modified";
