@@ -45,7 +45,7 @@ services:
 
   # --- REVERSE PROXY ---
   proxy:
-    image: jwilder/nginx-proxy
+    image: nginxproxy/nginx-proxy:1.6-alpine
     container_name: ${HOST}-nginx-proxy
     ports:
       - "80:80"
@@ -55,9 +55,15 @@ services:
       - certs:/etc/nginx/certs
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
-    restart: always
+    restart: unless-stopped
     labels:
       - "com.github.nginx-proxy.nginx-proxy"
+    healthcheck:
+      test: ["CMD", "nc", "-z", "127.0.0.1", "80"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   # --- LET'S ENCRYPT ---
   letsencrypt:
@@ -70,9 +76,10 @@ services:
       - certs:/etc/nginx/certs
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
-    restart: always
+    restart: unless-stopped
     depends_on:
-      - proxy
+      proxy:
+        condition: service_healthy
 
 volumes:
   certs:
