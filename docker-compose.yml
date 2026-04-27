@@ -57,7 +57,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "127.0.0.1:3306:3306"
+      - "127.0.0.1:3306:3306" # Allows connection via ssh
     volumes:
       - ./dbdata:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d:ro
@@ -98,7 +98,9 @@ services:
     container_name: ${HOST}-letsencrypt
     environment:
       - NGINX_PROXY_CONTAINER=${HOST}-nginx-proxy
+      # - ACME_CA_URI=https://acme-staging-v02.api.letsencrypt.org/directory # development only
     volumes:
+      - acme_data:/etc/acme.sh
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - certs:/etc/nginx/certs
       - vhost:/etc/nginx/vhost.d
@@ -109,6 +111,7 @@ services:
         condition: service_healthy
 
 volumes:
+  acme_data:
   certs:
   vhost:
   html:
