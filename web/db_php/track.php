@@ -1,5 +1,12 @@
 <?php
-// track.php
+// Connection method verification
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    header('Allow: POST');
+    exit;
+}
+
+// Connecion with database
 $host = getenv('MYSQL_HOST');
 $db   = getenv('MYSQL_DATABASE');
 $user = getenv('MYSQL_USER');
