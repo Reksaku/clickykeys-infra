@@ -10,9 +10,7 @@ jobs:
 
     steps:
       - name: Code checkout
-        uses: actions/checkout@v4
-        with: 
-          node-version: 22
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: PHP check
         run: |
@@ -31,17 +29,30 @@ jobs:
           fi
           echo "env.example OK"
           
-  deploy:
+  skan_image:
     runs-on: ubuntu-latest
     needs: test
 
     steps:
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1
+      - name: Scan image with Trivy
+        uses: aquasecurity/trivy-action@master
         with:
-          host: ${{ secrets.PROD_HOST }}
-          username: ${{ secrets.PROD_USER }}
-          key: ${{ secrets.PROD_SSH_KEY }}
+          image-ref: 'clickykeys-php:latest'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
+          ignore-unfixed: true
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: skan_image
+
+    steps:
+      - name: Deploy to Oracle VM
+        uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2
+        with:
+          host: ${{ secrets.TEST_HOST }}
+          username: ${{ secrets.TEST_USER }}
+          key: ${{ secrets.TEST_SSH_KEY }}
           script: |
             cd ~/clickykeys-infra
 
@@ -55,7 +66,13 @@ jobs:
             docker image prune -f
 
             # Docker contener rebuild delay
-            sleep 15
+            for i in $(seq 1 12); do
+              STATUS=$(curl -s -o /dev/null -w "%{http_code}" $DOMAIN)
+              [ "$STATUS" = "200" ] && { echo "OK"; break; }
+              [ $i -eq 12 ] && { echo "FAIL"; exit 1; }
+              echo "Attempt $i — HTTP $STATUS, retry..."
+              sleep 10
+            done
 
             # Web health check (HTTP 200)
             HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" ${{ secrets.PROD_WEB_DOMAIN }})
@@ -64,7 +81,7 @@ jobs:
               echo "Deploy OK — HTTP $HTTP_STATUS"
             else
               echo "ERROR — HTTP $HTTP_STATUS, rollback..."
-              git checkout $PREVIOUS_COMMIT
+              git reset --hard $PREVIOUS_COMMIT
               docker compose up -d --build
               echo "Rollback finished"
               exit 1   # Return deploy fail
