@@ -73,7 +73,7 @@ jobs:
 
             # Docker contener rebuild delay
             for i in $(seq 1 12); do
-              STATUS=$(curl -s -o /dev/null -w "%{http_code}" ${{ secrets.TEST_WEB_DOMAIN }})
+              STATUS=$(curl -s -L -o /dev/null -w "%{http_code}" ${{ secrets.TEST_WEB_DOMAIN }})
               if [ "$STATUS" = "200" ]; then
                 echo "Deploy OK — HTTP $STATUS"
                 exit 0
