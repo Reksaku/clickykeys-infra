@@ -105,12 +105,21 @@ Environment variables are managed through the `.env` file.
 Example configuration:
 
 ```env
-MYSQL_HOST=database
-MYSQL_DATABASE=my_stats.org
+HOST=change_me
+VIRTUAL_HOST=change_me
 
-MYSQL_ROOT_PASSWORD=s%hTs!#iUA21
-MYSQL_USER=admin
-MYSQL_PASSWORD=Apples#22!
+LETSENCRYPT_EMAIL=change_me
+LETSENCRYPT_HOST=change_me
+
+MYSQL_HOST=change_me
+MYSQL_DATABASE=change_me
+
+MYSQL_USER=change_me
+MYSQL_PASSWORD=change_me
+
+GRAFANA_USER=change_me
+GRAFANA_PASSWORD=change_me
+GRAFANA_HOST=change_me
 ```
 
 This ensures:
