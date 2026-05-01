@@ -112,7 +112,7 @@ services:
     
   # --- LOGGING ---
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.52.1
+    image: gcr.io/cadvisor/cadvisor:v0.55.1
     container_name: ${HOST}-cadvisor
     restart: unless-stopped
     privileged: true
@@ -124,8 +124,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /sys:/sys:ro
       - /var/lib/docker:/var/lib/docker:ro
-      - /var/lib/docker/rootfs/overlayfs:/var/lib/docker/image/overlay2:ro
       - /dev/disk/:/dev/disk:ro
+    command:
+      - '--docker_only=true'
+      - '--housekeeping_interval=15s'
+      - '--storage_duration=2m'
     ports:
       - "127.0.0.1:8080:8080"
     healthcheck:
