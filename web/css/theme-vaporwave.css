@@ -1,0 +1,38 @@
+/* theme-vaporwave.css – różowo-fioletowy synthwave */
+
+:root {
+    --bg: #13041f;
+    --bg-alt: #1a0930;
+    --accent: #ff71ce;
+    --accent-soft: rgba(255, 113, 206, 0.25);
+    --accent-2: #01cdfe;
+    --text: #fff7ff;
+    --muted: #f5b3ff;
+    --border: rgba(255, 255, 255, 0.08);
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 999px;
+    --shadow-soft: 0 18px 45px rgba(0,0,0,0.5);
+}
+
+body {
+    background: radial-gradient(circle at top, #ff71ce 0, #13041f 55%);
+}
+
+/* delikatnie jaśniejsze sekcje pod ten klimat */
+.section {
+    background: rgba(19, 4, 31, 0.9);
+}
+
+.download-card {
+    background: rgba(26, 9, 48, 0.9);
+}
+
+.btn-primary {
+    background: linear-gradient(120deg, #ff71ce, #f5b3ff);
+    color: #13041f;
+}
+
+.btn-ghost {
+    background: rgba(19, 4, 31, 0.95);
+}
