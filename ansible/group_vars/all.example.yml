@@ -1,0 +1,6 @@
+namespace: "CHANGE_ME"
+domain: "CHANGE_ME"
+email: "CHANGE_ME"
+project_name: "CHANGE_ME"
+letsencrypt_env: "staging" # prod lub staging
+nginx_replicas: 1

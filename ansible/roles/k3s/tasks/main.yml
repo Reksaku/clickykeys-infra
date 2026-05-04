@@ -1,0 +1,39 @@
+# roles/k3s/tasks/main.yml
+
+- name: Instalacja k3s
+  shell: |
+    curl -sfL https://get.k3s.io | sh -s - --disable traefik
+  args:
+    creates: /usr/local/bin/k3s
+
+- name: Czekaj aż k3s API będzie gotowe
+  shell: k3s kubectl get nodes
+  register: result
+  until: result.rc == 0
+  retries: 10
+  delay: 10                          # ← k3s potrzebuje kilku sekund po starcie
+
+- name: Utwórz katalog .kube
+  file:
+    path: /home/ubuntu/.kube
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+- name: Kopiuj kubeconfig
+  copy:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: /home/ubuntu/.kube/config
+    remote_src: yes
+    owner: ubuntu
+    group: ubuntu
+    mode: '0600'
+
+- name: Weryfikacja kubectl
+  shell: kubectl get nodes
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+  register: result
+  failed_when: result.rc != 0

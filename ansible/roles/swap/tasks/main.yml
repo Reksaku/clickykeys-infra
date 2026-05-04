@@ -1,0 +1,45 @@
+- name: Sprawdź czy swap juz istnieje
+  ansible.builtin.stat:
+    path: "{{ swapfile_path }}"
+  register: swap_check
+
+- name: Sprawdź aktualny stan pamięci swap
+  ansible.builtin.command: 
+    cmd: "swapon --show"
+  register: current_swap
+  changed_when: false
+
+- name: Wyświetl status swap
+  ansible.builtin.debug:
+    msg: "Current swap: {{ current_swap.stdout | default('No swap configured') }}"
+
+- name: Utwórz nowy swapfile
+  ansible.builtin.command:
+    cmd: "dd if=/dev/zero of={{ swapfile_path }} bs=1M count={{ swapfile_size }}"
+  when: not swap_check.stat.exists
+  register: swap_result
+
+- name: Ustaw uprawnienia
+  ansible.builtin.file:
+    path: "{{swapfile_path}}"
+    mode: "0600"
+    owner: root
+    group: root
+
+- name: Formatuj prestrzeń swap
+  ansible.builtin.command:
+    cmd: "mkswap {{swapfile_path}}"
+  when: not swap_check.stat.exists
+
+- name: Uruchom swapfile
+  ansible.builtin.command:
+    cmd: "swapon {{swapfile_path}}"
+  when: not swap_check.stat.exists
+
+- name: Zamontuj swapfile
+  ansible.posix.mount:
+    path: none
+    src: "{{swapfile_path}}"
+    fstype: swap
+    opts: sw
+    state: present

@@ -1,0 +1,13 @@
+---
+- hosts: k8s
+  become: true
+
+  vars:
+    swapfile_path: /swapfile
+    swapfile_size: "{{ (ansible_memtotal_mb <= 4096) | ternary(ansible_memtotal_mb, (ansible_memtotal_mb / 2) | int) }}"
+
+  roles:
+    - swap
+    - k3s
+    - helm
+    - k8s

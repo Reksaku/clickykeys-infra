@@ -1,0 +1,5 @@
+aws_region           = "CHANGE_ME"
+project_name         = "CHANGE_ME"
+ami_id               = "CHANGE_ME"
+ssh_public_key_path  = "CHANGE_ME"
+ssh_private_key_path = "CHANGE_ME"

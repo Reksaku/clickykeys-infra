@@ -1,0 +1,42 @@
+- name: Tworzenie katalogu na manifesty
+  file:
+    path: /home/ubuntu/manifests
+    state: directory
+    owner: ubuntu
+
+- name: Renderowanie szablonów Jinja2
+  template:
+    src: "{{ item }}"
+    dest: "/home/ubuntu/manifests/{{ item | basename | replace('.j2', '') }}"
+  with_fileglob:
+    - "../../../../k8s/manifests/*.yml.j2"
+
+- name: Aplikowanie Namespace
+  shell: kubectl apply -f /home/ubuntu/manifests/namespace.yml
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+- name: Aplikowanie ClusterIssuer
+  shell: kubectl apply -f /home/ubuntu/manifests/clusterissuer.yml
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+- name: Aplikowanie Deployment
+  shell: kubectl apply -f /home/ubuntu/manifests/deployment.yml
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+- name: Aplikowanie Service
+  shell: kubectl apply -f /home/ubuntu/manifests/service.yml
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+- name: Aplikowanie Ingress
+  shell: kubectl apply -f /home/ubuntu/manifests/ingress.yml
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
