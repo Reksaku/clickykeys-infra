@@ -4,3 +4,4 @@ email: "CHANGE_ME"
 project_name: "CHANGE_ME"
 letsencrypt_env: "staging" # prod lub staging
 nginx_replicas: 1
+image_registry: "ghcr.io/CHANGE_ME"

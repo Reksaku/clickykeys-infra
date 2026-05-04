@@ -164,8 +164,18 @@ ami_id               = "ami-CHANGE_ME"
 ssh_public_key_path  = "~/.ssh/id_rsa.pub"
 ssh_private_key_path = "~/.ssh/id_rsa"
 ```
+### 3. Build and push web image to GitHub Container Registry
+```bash
+cd website
 
-### 3. Configure Ansible variables
+docker build -t IMAGE:latest .
+
+docker tag clickykeys-web:latest ghcr.io/USER/IMAGE:latest
+
+docker push ghcr.io/USER/IMAGE:latest
+```
+
+### 4. Configure Ansible variables
 
 ```bash
 cp ansible/group_vars/all.example.yml ansible/group_vars/all.yml
@@ -180,9 +190,10 @@ email: "CHANGE_ME"
 project_name: "CHANGE_ME"
 letsencrypt_env: "staging"   # switch to "prod" once verified
 nginx_replicas: 1
+image_registry: ghcr.io/USER/IMAGE:latest
 ```
 
-### 4. Provision the infrastructure
+### 5. Provision the infrastructure
 
 ```bash
 cd terraform
@@ -192,7 +203,7 @@ terraform apply
 
 Terraform will provision the EC2 instance and automatically generate `ansible/inventory.ini` with the server's public IP.
 
-### 5. Run the Ansible playbook
+### 6. Run the Ansible playbook
 
 ```bash
 cd ../ansible
@@ -205,7 +216,7 @@ Ansible will sequentially:
 3. Install Helm, ingress-nginx, and cert-manager
 4. Render Jinja2 manifests and apply all Kubernetes resources
 
-### 6. Verify the deployment
+### 7. Verify the deployment
 
 ```bash
 # On the remote server (SSH in) or locally with a copied kubeconfig:
@@ -241,7 +252,7 @@ The site will be live at `https://<domain>` once cert-manager provisions the TLS
 | `project_name` | Used in resource naming |
 | `letsencrypt_env` | `staging` or `prod` |
 | `nginx_replicas` | Number of nginx-web pod replicas |
-
+| `image_registry` | Web container image url |
 
 ---
 
