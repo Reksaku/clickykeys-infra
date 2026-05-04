@@ -23,14 +23,32 @@
   environment:
     KUBECONFIG: /home/ubuntu/.kube/config
 
-- name: Aplikowanie Deployment
-  shell: kubectl apply -f /home/ubuntu/manifests/deployment.yml
+- name: Aplikowanie Secret - MySQL Credentials
+  shell: kubectl apply -f /home/ubuntu/manifests/secret-mysql.yml
   become_user: ubuntu
   environment:
     KUBECONFIG: /home/ubuntu/.kube/config
 
-- name: Aplikowanie Service
-  shell: kubectl apply -f /home/ubuntu/manifests/service.yml
+- name: Aplikowanie Deployment Nginx
+  shell: kubectl apply -f /home/ubuntu/manifests/deployment-nginx.yml
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+- name: Aplikowanie Deployment PHP
+  shell: kubectl apply -f /home/ubuntu/manifests/deployment-php.yml
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+- name: Aplikowanie Service Nginx
+  shell: kubectl apply -f /home/ubuntu/manifests/service-nginx.yml
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+- name: Aplikowanie Service PHP
+  shell: kubectl apply -f /home/ubuntu/manifests/service-php.yml
   become_user: ubuntu
   environment:
     KUBECONFIG: /home/ubuntu/.kube/config

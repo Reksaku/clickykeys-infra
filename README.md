@@ -105,11 +105,12 @@ ansible-playbook playbook.yml
 │
 ├── php-fpm/                    # PHP-FPM container definition
 │   ├── dockerfile
-│   └── zz-healthcheck.conf
+│   └── web/                    # PHP source files
+├── website/                    # Nginx container definition
+│   ├── dockerfile
+│   └── web/                    # Application source files
 ├── mysql-init/                 # Database initialisation scripts
 │   └── 01-schema.sql
-├── web/                        # Application source files
-├── .env.example                # Example environment variables
 └── README.md
 ```
 
@@ -168,11 +169,16 @@ ssh_private_key_path = "~/.ssh/id_rsa"
 ```bash
 cd website
 
-docker build -t IMAGE:latest .
+docker build -t IMAGE-web:latest .
+docker tag IMAGE-web:latest ghcr.io/USER/IMAGE-web:latest
+docker push ghcr.io/USER/IMAGE-web:latest
 
-docker tag clickykeys-web:latest ghcr.io/USER/IMAGE:latest
+cd ../php-fpm
 
-docker push ghcr.io/USER/IMAGE:latest
+docker build -t IMAGE-php:latest .
+docker tag IMAGE-php:latest ghcr.io/USER/IMAGE-php:latest
+docker push ghcr.io/USER/IMAGE-php:latest
+
 ```
 
 ### 4. Configure Ansible variables
@@ -184,13 +190,20 @@ cp ansible/group_vars/all.example.yml ansible/group_vars/all.yml
 Edit `ansible/group_vars/all.yml`:
 
 ```yaml
-namespace: "CHANGE_ME"
-domain: "CHANGE_ME"
-email: "CHANGE_ME"
-project_name: "CHANGE_ME"
-letsencrypt_env: "staging"   # switch to "prod" once verified
+namespace: CHANGE_ME
+domain: CHANGE_ME
+email: CHANGE_ME
+project_name: CHANGE_ME
+letsencrypt_env: staging   # switch to "prod" once verified
 nginx_replicas: 1
-image_registry: ghcr.io/USER/IMAGE:latest
+web_image_registry: ghcr.io/CHANGE_ME
+php_image_registry: ghcr.io/CHANGE_ME
+
+# echo -n "db.example.com" | base64
+MySQL_host_base64: CHANGE_ME
+MySQL_database_base64: CHANGE_ME
+MySQL_user_base64: CHANGE_ME
+MySQL_password_base64: CHANGE_ME
 ```
 
 ### 5. Provision the infrastructure
@@ -253,6 +266,7 @@ The site will be live at `https://<domain>` once cert-manager provisions the TLS
 | `letsencrypt_env` | `staging` or `prod` |
 | `nginx_replicas` | Number of nginx-web pod replicas |
 | `image_registry` | Web container image url |
+| `php_image_registry` | PHP container image url |
 
 ---
 

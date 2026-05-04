@@ -1,7 +1,14 @@
-namespace: "CHANGE_ME"
-domain: "CHANGE_ME"
-email: "CHANGE_ME"
-project_name: "CHANGE_ME"
-letsencrypt_env: "staging" # prod lub staging
+namespace: CHANGE_ME
+domain: CHANGE_ME
+email: CHANGE_ME
+project_name: CHANGE_ME
+letsencrypt_env: staging   # switch to "prod" once verified
 nginx_replicas: 1
-image_registry: "ghcr.io/CHANGE_ME"
+web_image_registry: ghcr.io/CHANGE_ME
+php_image_registry: ghcr.io/CHANGE_ME
+
+# echo -n "db.example.com" | base64
+MySQL_host_base64: CHANGE_ME
+MySQL_database_base64: CHANGE_ME
+MySQL_user_base64: CHANGE_ME
+MySQL_password_base64: CHANGE_ME

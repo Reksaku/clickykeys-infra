@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: {{ image_registry }}
+        image: {{ web_image_registry }}
         imagePullPolicy: Always
         ports:
         - containerPort: 80

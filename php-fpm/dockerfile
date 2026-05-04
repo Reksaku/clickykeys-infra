@@ -1,8 +1,0 @@
-FROM php:8.2-fpm-alpine
-
-RUN apk upgrade --no-cache
-
-RUN apk add --no-cache fcgi
-RUN docker-php-ext-install pdo pdo_mysql
-
-WORKDIR /var/www/html
