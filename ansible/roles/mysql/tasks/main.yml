@@ -1,0 +1,97 @@
+- name: Zainstaluj MySQL
+  apt:
+    name:
+      - mysql-server
+      - python3-pymysql
+    state: present
+    update_cache: yes
+
+- name: Uruchom i włącz MySQL
+  systemd:
+    name: mysql
+    state: started
+    enabled: yes
+
+- name: Ustaw hasło roota
+  shell: |
+    # Sprawdź czy hasło jest już ustawione
+    if mysql --socket=/var/run/mysqld/mysqld.sock -u root -p'{{ mysql_root_password }}' -e "SELECT 1" 2>/dev/null; then
+      echo "already_configured"
+    else
+      # root używa auth_socket, łączymy bez hasła jako OS root
+      mysql --socket=/var/run/mysqld/mysqld.sock -u root \
+        -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '{{ mysql_root_password }}'; FLUSH PRIVILEGES;"
+    fi
+  args:
+    executable: /bin/bash
+  no_log: true
+  register: mysql_root_setup
+  changed_when: "'already_configured' not in mysql_root_setup.stdout"
+
+- name: Usuń anonimowych użytkowników
+  mysql_user:
+    name: ''
+    host_all: yes
+    state: absent
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Utwórz bazy danych
+  mysql_db:
+    name: "{{ item.name }}"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  loop: "{{ mysql_databases }}"
+
+- name: Skopiuj schemat bazy na serwer
+  copy:
+    src: 01-schema.sql
+    dest: /tmp/01-schema.sql
+    mode: '0600'
+
+- name: Sprawdź czy tabela page_views istnieje
+  mysql_query:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    query: >
+      SELECT COUNT(*) as cnt
+      FROM information_schema.tables
+      WHERE table_schema = 'clickykeys'
+      AND table_name = 'page_views'
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: true
+  register: table_check
+
+- name: Zaimportuj schemat jeśli nie istnieje
+  mysql_db:
+    name: clickykeys
+    state: import
+    target: /tmp/01-schema.sql
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: true
+  when: table_check.query_result[0][0].cnt == 0
+
+- name: Utwórz użytkowników aplikacji
+  mysql_user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    priv: "{{ item.priv }}"
+    host: "{{ item.host }}"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: true
+  loop: "{{ mysql_users }}"
+
+- name: Wgraj konfigurację MySQL
+  template:
+    src: mysql.cnf.j2
+    dest: /etc/mysql/mysql.conf.d/zz-custom.cnf
+    mode: '0644'
+  notify: restart mysql

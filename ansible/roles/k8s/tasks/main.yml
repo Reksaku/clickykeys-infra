@@ -23,8 +23,22 @@
   environment:
     KUBECONFIG: /home/ubuntu/.kube/config
 
-- name: Aplikowanie Secret - MySQL Credentials
-  shell: kubectl apply -f /home/ubuntu/manifests/secret-mysql.yml
+- name: Tworzenie Secret dla MySQL
+  shell: |
+    kubectl create secret generic mysql-credentials \
+      --from-literal=MYSQL_HOST="mysql-svc" \
+      --from-literal=MYSQL_DATABASE="{{ mysql_database }}" \
+      --from-literal=MYSQL_USER="{{ mysql_user_name }}" \
+      --from-literal=MYSQL_PASSWORD="{{ mysql_user_password }}" \
+      --from-literal=DB_PORT="3306" \
+      --namespace="{{ namespace }}" \
+      --dry-run=client -o yaml | kubectl apply -f -
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+  no_log: true
+
+- name: Aplikowanie Service MySQL
+  shell: kubectl apply -f /home/ubuntu/manifests/service-mysql.yml
   become_user: ubuntu
   environment:
     KUBECONFIG: /home/ubuntu/.kube/config

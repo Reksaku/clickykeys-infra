@@ -1,0 +1,16 @@
+project_name: CHANGE_ME
+letsencrypt_env: staging   # switch to "prod" once verified
+nginx_replicas: 1
+web_image_registry: ghcr.io/CHANGE_ME
+php_image_registry: ghcr.io/CHANGE_ME
+
+
+## Vault separation
+namespace: "{{ vault_namespace }}"
+domain: "{{ vault_domain }}"
+email: "{{ vault_email }}"
+
+mysql_root_password: "{{ vault_mysql_root_password }}"
+mysql_user_password: "{{ vault_mysql_user_password }}"
+mysql_user_name: "{{ vault_mysql_user_name }}"
+mysql_database: "{{ vault_mysql_database }}"

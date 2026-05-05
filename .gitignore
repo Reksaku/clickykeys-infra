@@ -1,7 +1,8 @@
 **/*.secret.yaml
 .env
 
-ansible/group_vars/all.yml 
+ansible/group_vars/all/all.yml
+ansible/group_vars/all/vault.yml 
 **/.terraform/
 **/*.tfstate
 **/*.tfstate.backup
