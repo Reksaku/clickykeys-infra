@@ -2,7 +2,7 @@ name: Deploy ClickyKeys
 
 on:
   push:
-    branches: [ main ]
+    branches: [ docker-legacy ]
 
 jobs:
   test:
