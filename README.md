@@ -2,7 +2,7 @@
 
 <img src="./website/web/img/Icon.png" width="10%">
 
-# ClickyKeys Infrastructure &mdash; Kubernetes edition
+# ClickyKeys Infrastructure
 
 ![AWS](https://img.shields.io/badge/AWS-EC2-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
 ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)
@@ -22,6 +22,10 @@
 *Provisioned with Terraform &middot; Configured with Ansible &middot; Orchestrated with Kubernetes (k3s)*
 
 </div>
+
+> [!NOTE]
+> **This is the current production branch** &mdash; a fully automated, IaC-driven Kubernetes (k3s) stack provisioned with Terraform and Ansible.
+> The earlier Docker Compose deployment is preserved on the [`docker-legacy` branch](https://github.com/Reksaku/clickykeys-infra/tree/docker-legacy) as a historical reference of the original setup that powered the ClickyKeys platform.
 
 ---
 
@@ -78,8 +82,6 @@ This repository is a working DevOps portfolio piece and the live infrastructure 
 - **Templated Kubernetes manifests** rendered with Jinja2 so the same codebase deploys to any environment by changing variables.
 - **Secrets hygiene**: every sensitive value is stored encrypted with Ansible Vault and is excluded from version control via `.gitignore`.
 - **Real running site.** This infrastructure powers the public ClickyKeys website &mdash; it is not a toy demo.
-
-> The **`kubernetes` branch will soon become the production branch.** The current `main` branch (Docker Compose based) will be retained in this repository as **legacy** for historical reference.
 
 ---
 
@@ -186,7 +188,7 @@ ansible-playbook playbook.yml --ask-vault-pass
 ### 1. Clone the repository
 
 ```bash
-git clone -b kubernetes https://github.com/Reksaku/clickykeys-infra.git
+git clone https://github.com/Reksaku/clickykeys-infra.git
 cd clickykeys-infra
 ```
 
@@ -364,28 +366,29 @@ The site will be live at `https://<your-domain>` once cert-manager finishes the 
 
 ---
 
-## Branch Status &mdash; `kubernetes` vs `main`
+## Branch Status &mdash; `main` (current) vs `docker-legacy`
 
-| Aspect | `main` (Docker, **legacy**) | `kubernetes` (this branch, **future production**) |
+| Aspect | `main` (k3s, **current production** &mdash; this branch) | `docker-legacy` (Docker Compose, **legacy**) |
 |---|---|---|
-| Orchestration | Docker Compose | Kubernetes (k3s) |
-| Provisioning | Manual | Terraform (AWS EC2) |
-| Configuration | Manual | Ansible (fully automated) |
-| Ingress / proxy | Nginx container | ingress-nginx via Helm |
-| TLS | Let's Encrypt via env proxy | cert-manager (automatic renewal) |
-| Scaling | `docker compose scale` | `kubectl scale` / replica count |
-| Secrets | `.env` files | Ansible Vault + Kubernetes Secrets |
-| Portability | Any Docker host | Any k3s / Kubernetes cluster |
+| Orchestration | Kubernetes (k3s) | Docker Compose |
+| Provisioning | Terraform (AWS EC2) | Manual |
+| Configuration | Ansible (fully automated, idempotent roles) | `.env` file, manual `docker compose up` |
+| Ingress / proxy | `ingress-nginx` via Helm | `nginx-proxy` container |
+| TLS | `cert-manager` (automatic renewal) | Let's Encrypt via `acme-companion` |
+| Scaling | `kubectl scale` / replica count | `docker compose scale` |
+| Secrets | Ansible Vault + Kubernetes `Secret` resources | `.env` files |
+| Observability | Cluster-native (k8s metrics, future Prometheus Operator) | Prometheus + cAdvisor + Grafana (in-stack) |
+| Portability | Any Kubernetes / k3s cluster | Any Docker host |
 
-> The `kubernetes` branch is being promoted to production. The `main` branch will remain in this repository as a legacy reference of the earlier Docker Compose setup.
+> The `main` branch (this one) is the active production deployment. The `docker-legacy` branch remains in the repository as a **legacy** reference of the original Docker Compose setup that powered ClickyKeys.
 
 ---
 
 ## Related Projects
 
-- **ClickyKeys production page** &mdash; [Web](https:clickykeys.fun)
+- **ClickyKeys production page** &mdash; [clickykeys.fun](https://clickykeys.fun)
 - **ClickyKeys application** &mdash; [GitHub](https://github.com/Reksaku/ClickyKeys) &middot; [Microsoft Store](https://apps.microsoft.com/store/detail/9PJT83WPC06K?cid=DevShareMCLPCS)
-- **ClickyKeys infrastructure (legacy, Docker)** &mdash; [`main` branch](https://github.com/Reksaku/clickykeys-infra)
+- **ClickyKeys infrastructure (legacy, Docker Compose)** &mdash; [`docker-legacy` branch](https://github.com/Reksaku/clickykeys-infra/tree/docker-legacy)
 
 ---
 
