@@ -82,14 +82,12 @@ elseif (stripos($userAgent, 'mac os') !== false || stripos($userAgent, 'macintos
 $path = $data['path'] ?? '/';
 if (
     !(
-        str_starts_with($path, "/pl/") ||
+        str_starts_with($path, "/pl") ||
         str_starts_with($path, "/?utm_source") ||
-	str_starts_with($path, "/qr") ||
-	str_starts_with($path, "/update") ||
-	$path === "/"
+	    $path === "/"
     )
 ) {
-    $path = "modified";
+    $path = "invalid($path)";
 }
 
 $sessionId      = $data['session_id']      ?? null;

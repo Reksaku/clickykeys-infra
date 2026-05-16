@@ -23,7 +23,7 @@ spec:
       containers:
         - name: php-fpm
           image: {{ php_image_registry }}
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 9000
           env:

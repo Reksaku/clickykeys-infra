@@ -11,10 +11,22 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - {{ domain }}    
+    - {{ domain }}
+    - github.{{ domain }}    
     secretName: nginx-web-tls
   rules:
   - host: {{ domain }}  
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-web
+            port:
+              number: 80
+              
+  - host: github.{{ domain }}
     http:
       paths:
       - path: /
