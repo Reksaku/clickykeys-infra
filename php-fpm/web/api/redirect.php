@@ -46,6 +46,12 @@ if (stripos($userAgent, 'windows') !== false)                                   
 elseif (stripos($userAgent, 'linux') !== false)                                    $os = 'Linux';
 elseif (stripos($userAgent, 'mac os') !== false || stripos($userAgent, 'macintosh') !== false) $os = 'macOS';
 
+$path = $_SERVER['REQUEST_URI'];
+
+if (!str_starts_with($path, '/reksaku')) {
+    header('Location: https://github.com/', true, 302);
+    exit;
+}
 
 $stmt = $pdo->prepare("
     INSERT INTO page_views (
@@ -68,11 +74,5 @@ $stmt->execute([
 ]);
 
 // Redirect
-$target = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-
-if (empty($target)) {
-    header('Location: https://github.com', true, 302);
-} else {
-    header('Location: https://github.com/' . $target, true, 302);
-}
+header('Location: https://github.com/' . ltrim($path, '/'), true, 302);
 exit;
