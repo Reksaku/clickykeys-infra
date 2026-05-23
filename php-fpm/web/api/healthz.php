@@ -1,5 +1,5 @@
 <?php
-// Endpoint sprawdzający czy aplikacja PHP działa (liveness check).
+// Healthz endpoint - liveness check
 
 if (!function_exists('healthz_payload')) {
     function healthz_payload(): array {
@@ -10,8 +10,7 @@ if (!function_exists('healthz_payload')) {
     }
 }
 
-// Wykonujemy odpowiedź HTTP tylko gdy plik jest wywołany przez serwer,
-// nie podczas include w testach jednostkowych.
+
 if (PHP_SAPI !== 'cli') {
     header('Content-Type: application/json; charset=utf-8');
     http_response_code(200);
