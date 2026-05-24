@@ -165,15 +165,15 @@ jobs:
 
             echo "==> Staging deploy complete"
         env:
-          SHA_TAG: ${{ needs.build.outputs.sha_tag }}
-          OWNER:   ${{ needs.build.outputs.owner }}
+          SHA_TAG: ${{ needs.images_build.outputs.sha_tag }}
+          OWNER:   ${{ needs.images_build.outputs.owner }}
 
       - name: Job summary
         run: |
           {
             echo "### Deployed to staging"
             echo ""
-            echo "Tag: \`${{ needs.build.outputs.sha_tag }}\`"
+            echo "Tag: \`${{ needs.images_build.outputs.sha_tag }}\`"
             echo "Namespace: \`staging\`"
             echo ""
           } >> "$GITHUB_STEP_SUMMARY"
