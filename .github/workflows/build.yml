@@ -177,3 +177,42 @@ jobs:
             echo "Namespace: \`staging\`"
             echo ""
           } >> "$GITHUB_STEP_SUMMARY"
+
+  # Smoke test against the staging URL
+  smoke-test:
+    name: Smoke test staging
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (for smoke script)
+        uses: actions/checkout@v4
+
+      - name: Wait for traffic to settle
+        run: sleep 10
+
+      - name: Run smoke test
+        env:
+          STAGING_URL: ${{ secrets.STAGING_URL }}
+        run: |
+          chmod +x scripts/smoke-staging.sh
+          ./scripts/smoke-staging.sh
+
+      - name: Job summary
+        if: success()
+        run: |
+          {
+            echo "### Smoke test passed ✓"
+            echo ""
+            echo "Endpoint: \`${{ secrets.STAGING_URL }}/api/healthz.php\` returned HTTP 200 with healthy payload."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Failure summary
+        if: failure()
+        run: |
+          {
+            echo "### Smoke test FAILED ✗"
+            echo ""
+            echo "Staging at \`${{ secrets.STAGING_URL }}\` is not responding correctly."
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"
