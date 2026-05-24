@@ -1,4 +1,8 @@
-- name: Zainstaluj MySQL
+---
+# MySQL setup. Creates one database and one user per environment.
+# All schema files are shared — every environment uses the same schema.
+
+- name: Install MySQL server
   apt:
     name:
       - mysql-server
@@ -6,19 +10,18 @@
     state: present
     update_cache: yes
 
-- name: Uruchom i włącz MySQL
+- name: Ensure MySQL is running and enabled
   systemd:
     name: mysql
     state: started
     enabled: yes
 
-- name: Ustaw hasło roota
+# Initial root password setup. Detects whether the password is already configured
+- name: Set root password (first-run only)
   shell: |
-    # Sprawdź czy hasło jest już ustawione
     if mysql --socket=/var/run/mysqld/mysqld.sock -u root -p'{{ mysql_root_password }}' -e "SELECT 1" 2>/dev/null; then
       echo "already_configured"
     else
-      # root używa auth_socket, łączymy bez hasła jako OS root
       mysql --socket=/var/run/mysqld/mysqld.sock -u root \
         -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '{{ mysql_root_password }}'; FLUSH PRIVILEGES;"
     fi
@@ -28,7 +31,7 @@
   register: mysql_root_setup
   changed_when: "'already_configured' not in mysql_root_setup.stdout"
 
-- name: Usuń anonimowych użytkowników
+- name: Remove anonymous users
   mysql_user:
     name: ''
     host_all: yes
@@ -37,59 +40,76 @@
     login_password: "{{ mysql_root_password }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
 
-- name: Utwórz bazy danych
+# One database per environment. Idempotent — re-runs do nothing if DB exists.
+- name: Create application databases
   mysql_db:
-    name: "{{ item.name }}"
+    name: "{{ item.mysql_database }}"
     state: present
     login_user: root
     login_password: "{{ mysql_root_password }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
-  loop: "{{ mysql_databases }}"
+  loop: "{{ environments }}"
+  loop_control:
+    label: "{{ item.mysql_database }}"
 
-- name: Skopiuj schemat bazy na serwer
+# One user per environment, scoped to only its own database.
+- name: Create application users with database-scoped privileges
+  mysql_user:
+    name: "{{ item.mysql_user_name }}"
+    password: "{{ item.mysql_user_password }}"
+    priv: "{{ item.mysql_database }}.*:ALL"
+    host: localhost
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  loop: "{{ environments }}"
+  loop_control:
+    label: "{{ item.mysql_user_name }}"
+  no_log: true
+
+- name: Copy schema file to server
   copy:
     src: 01-schema.sql
     dest: /tmp/01-schema.sql
     mode: '0600'
 
-- name: Sprawdź czy tabela page_views istnieje
+- name: Check whether schema is loaded in each database
   mysql_query:
     login_user: root
     login_password: "{{ mysql_root_password }}"
-    query: >
-      SELECT COUNT(*) as cnt
-      FROM information_schema.tables
-      WHERE table_schema = 'clickykeys'
-      AND table_name = 'page_views'
     login_unix_socket: /var/run/mysqld/mysqld.sock
-  no_log: true
-  register: table_check
+    query: >
+      SELECT COUNT(*) AS cnt
+      FROM information_schema.tables
+      WHERE table_schema = %(db_name)s
+        AND table_name = 'page_views'
+    named_args:
+      db_name: "{{ item.mysql_database }}"
+  loop: "{{ environments }}"
+  loop_control:
+    label: "{{ item.mysql_database }}"
+  register: schema_check
+  check_mode: false
+  no_log: false
 
-- name: Zaimportuj schemat jeśli nie istnieje
+- name: Import schema into databases that are still empty
   mysql_db:
-    name: clickykeys
+    name: "{{ item.item.mysql_database }}"
     state: import
     target: /tmp/01-schema.sql
     login_user: root
     login_password: "{{ mysql_root_password }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
-  no_log: true
-  when: table_check.query_result[0][0].cnt == 0
+  when: 
+    - not item.skipped | default(false)
+    - item.query_result[0][0].cnt == 0
+  loop: "{{ schema_check.results }}"
+  loop_control:
+    label: "{{ item.item.mysql_database }}"
+  no_log: false
 
-- name: Utwórz użytkowników aplikacji
-  mysql_user:
-    name: "{{ item.name }}"
-    password: "{{ item.password }}"
-    priv: "{{ item.priv }}"
-    host: "{{ item.host }}"
-    state: present
-    login_user: root
-    login_password: "{{ mysql_root_password }}"
-    login_unix_socket: /var/run/mysqld/mysqld.sock
-  no_log: true
-  loop: "{{ mysql_users }}"
-
-- name: Wgraj konfigurację MySQL
+- name: Apply MySQL configuration overrides
   template:
     src: mysql.cnf.j2
     dest: /etc/mysql/mysql.conf.d/zz-custom.cnf

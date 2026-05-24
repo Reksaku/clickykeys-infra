@@ -6,17 +6,32 @@
     swapfile_path: /swapfile
     swapfile_size: "{{ (ansible_memtotal_mb <= 4096) | ternary(ansible_memtotal_mb, (ansible_memtotal_mb / 2) | int) }}"
 
+    # Defaults to ALL environments. Override from CLI to limit scope:
+    #   ansible-playbook playbook.yml -e 'target_envs=["staging"]'
+    target_envs: "{{ environments | map(attribute='name') | list }}"
+
   pre_tasks:
     - name: Update and upgrade apt packages
-      become: true
       apt:
         upgrade: yes
         update_cache: yes
-        cache_valid_time: 86400 #One day
+        cache_valid_time: 86400
 
+  # Host-wide roles run once, regardless of how many environments exist.
   roles:
     - swap
     - k3s
     - helm
-    - k8s
     - mysql
+    - k8s_cluster     # cluster-wide resources
+
+  # Application resources applied per environment
+  tasks:
+    - name: Apply per-environment Kubernetes resources
+      include_role:
+        name: k8s_env
+      vars:
+        env: "{{ item }}"
+      loop: "{{ environments | selectattr('name', 'in', target_envs) | list }}"
+      loop_control:
+        label: "{{ item.name }}"

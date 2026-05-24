@@ -1,0 +1,20 @@
+---
+
+- name: Ensure manifests directory exists
+  file:
+    path: /home/ubuntu/manifests/cluster
+    state: directory
+    owner: ubuntu
+
+- name: Render cluster-wide manifests
+  template:
+    src: "{{ item }}"
+    dest: "/home/ubuntu/manifests/cluster/{{ item | basename | replace('.yml.j2', '.yml') }}"
+  with_fileglob:
+    - "../../../../k8s/manifests/cluster/*.yml.j2"
+
+- name: Apply ClusterIssuer
+  shell: kubectl apply -f /home/ubuntu/manifests/cluster/clusterissuer.yml
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config

@@ -1,0 +1,16 @@
+# Cluster-wide: ACME issuer used by cert-manager for all environments.
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-{{ letsencrypt_env }}
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email is taken from production env for ACME notifications.
+    email: "{{ (environments | selectattr('name', 'equalto', 'production') | first).email }}"
+    privateKeySecretRef:
+      name: letsencrypt-{{ letsencrypt_env }}
+    solvers:
+      - http01:
+          ingress:
+            class: nginx

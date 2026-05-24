@@ -1,0 +1,73 @@
+---
+
+- name: Ensure per-env manifest directory exists
+  file:
+    path: "/home/ubuntu/manifests/{{ env.name }}"
+    state: directory
+    owner: ubuntu
+
+- name: Render env-specific manifests
+  template:
+    src: "{{ manifest_file }}"
+    dest: "/home/ubuntu/manifests/{{ env.name }}/{{ manifest_file | basename | replace('.yml.j2', '.yml') }}"
+  loop: "{{ lookup('fileglob', '../../../../k8s/manifests/env/*.yml.j2', wantlist=True) }}"
+  loop_control:
+    loop_var: manifest_file
+
+
+- name: Apply Namespace
+  shell: "kubectl apply -f /home/ubuntu/manifests/{{ env.name }}/namespace.yml"
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+
+- name: Create MySQL credentials Secret
+  shell: |
+    kubectl create secret generic mysql-credentials \
+      --from-literal=MYSQL_HOST="mysql-svc" \
+      --from-literal=MYSQL_DATABASE="{{ env.mysql_database }}" \
+      --from-literal=MYSQL_USER="{{ env.mysql_user_name }}" \
+      --from-literal=MYSQL_PASSWORD="{{ env.mysql_user_password }}" \
+      --from-literal=DB_PORT="3306" \
+      --namespace="{{ env.namespace }}" \
+      --dry-run=client -o yaml | kubectl apply -f -
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+  no_log: true
+
+- name: Apply MySQL Service and Endpoints
+  shell: "kubectl apply -f /home/ubuntu/manifests/{{ env.name }}/service-mysql.yml"
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+- name: Apply Nginx Deployment
+  shell: "kubectl apply -f /home/ubuntu/manifests/{{ env.name }}/deployment-nginx.yml"
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+- name: Apply PHP-FPM Deployment
+  shell: "kubectl apply -f /home/ubuntu/manifests/{{ env.name }}/deployment-php.yml"
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+- name: Apply Nginx Service
+  shell: "kubectl apply -f /home/ubuntu/manifests/{{ env.name }}/service-nginx.yml"
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+- name: Apply PHP Service
+  shell: "kubectl apply -f /home/ubuntu/manifests/{{ env.name }}/service-php.yml"
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+- name: Apply Ingress
+  shell: "kubectl apply -f /home/ubuntu/manifests/{{ env.name }}/ingress.yml"
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config

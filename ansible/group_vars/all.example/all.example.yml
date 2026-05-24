@@ -1,16 +1,37 @@
+# Global, host-wide settings that are shared across all environments.
 project_name: CHANGE_ME
-letsencrypt_env: staging   # switch to "prod" once verified
+letsencrypt_env: staging
 nginx_replicas: 1
-web_image_registry: ghcr.io/CHANGE_ME
-php_image_registry: ghcr.io/CHANGE_ME
 
+# GHCR image source. CI/CD will push images here as:
+#   ghcr.io/{{ ghcr_owner }}/{{ image_web_name }}:<short-sha>
+#   ghcr.io/{{ ghcr_owner }}/{{ image_php_name }}:<short-sha>
+ghcr_owner: CHANGE_ME
+image_web_name: clickykeys-web
+image_php_name: clickykeys-php
 
-## Vault separation
-namespace: "{{ vault_namespace }}"
-domain: "{{ vault_domain }}"
-email: "{{ vault_email }}"
-
+# MySQL root password — only for provisioning
 mysql_root_password: "{{ vault_mysql_root_password }}"
-mysql_user_password: "{{ vault_mysql_user_password }}"
-mysql_user_name: "{{ vault_mysql_user_name }}"
-mysql_database: "{{ vault_mysql_database }}"
+
+environments:
+  - name: production
+    namespace: "{{ vault_prod_namespace }}"
+    domain: "{{ vault_prod_domain }}"
+    email: "{{ vault_prod_email }}"
+    mysql_database: "{{ vault_prod_mysql_database }}"
+    mysql_user_name: "{{ vault_prod_mysql_user_name }}"
+    mysql_user_password: "{{ vault_prod_mysql_user_password }}"
+    web_image_tag: latest
+    php_image_tag: latest
+    php_replicas: 2
+
+  - name: staging
+    namespace: "{{ vault_staging_namespace }}"
+    domain: "{{ vault_staging_domain }}"
+    email: "{{ vault_staging_email }}"
+    mysql_database: "{{ vault_staging_mysql_database }}"
+    mysql_user_name: "{{ vault_staging_mysql_user_name }}"
+    mysql_user_password: "{{ vault_staging_mysql_user_password }}"
+    web_image_tag: latest
+    php_image_tag: latest
+    php_replicas: 1

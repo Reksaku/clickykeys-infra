@@ -1,8 +1,20 @@
-namespace: "{{ vault_namespace }}"
-domain: "{{ vault_domain }}"
-email: "{{ vault_email }}"
 
-mysql_root_password: "{{ vault_mysql_root_password }}"
-mysql_user_password: "{{ vault_mysql_user_password }}"
-mysql_user_name: "{{ vault_mysql_user_name }}"
-mysql_database: "{{ vault_mysql_database }}"
+# Shared MySQL root password (used only during provisioning).
+vault_mysql_root_password: CHANGE_ME
+
+# ── Production ──
+vault_prod_namespace: clickykeys
+vault_prod_domain: example.com
+vault_prod_email: admin@example.com
+vault_prod_mysql_database: clickykeys
+vault_prod_mysql_user_name: clickykeys_app
+vault_prod_mysql_user_password: CHANGE_ME
+
+# ── Staging ──
+# Must use a DIFFERENT namespace, database, user, and password than production
+vault_staging_namespace: staging
+vault_staging_domain: staging.example.com
+vault_staging_email: admin@example.com
+vault_staging_mysql_database: clickykeys_staging
+vault_staging_mysql_user_name: clickykeys_staging
+vault_staging_mysql_user_password: CHANGE_ME

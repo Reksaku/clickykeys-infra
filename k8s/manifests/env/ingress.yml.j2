@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-web
+  namespace: {{ env.namespace }}
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-{{ letsencrypt_env }}"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - {{ env.domain }}
+{% if env.name == 'production' %}
+        - github.{{ env.domain }}
+{% endif %}
+      secretName: nginx-web-tls
+  rules:
+    - host: {{ env.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-web
+                port:
+                  number: 80
+{% if env.name == 'production' %}
+    # github.* host only on production — it's a vanity redirect, not core to the app.
+    - host: github.{{ env.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-web
+                port:
+                  number: 80
+{% endif %}
