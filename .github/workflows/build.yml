@@ -1,16 +1,20 @@
-name: Build images
+name: Build & deploy to staging
 
 on:
-  workflow_dispatch:        # ręczne uruchomienie z zakładki Actions
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: read
-  packages: write           # wymagane do push na GHCR
+  packages: write
 
 env:
   REGISTRY: ghcr.io
 
 jobs:
+
   phpunit_test:
     name: PHPUnit
     runs-on: ubuntu-latest
@@ -28,7 +32,7 @@ jobs:
         with:
           php-version: '8.2'
           extensions: pdo, pdo_mysql
-          coverage: none 
+          coverage: none
           tools: composer:v2
 
       - name: Cache Composer dependencies
@@ -45,30 +49,32 @@ jobs:
         run: vendor/bin/phpunit --testdox
 
 
+  # Build & push both images to GHCR.
   images_build:
     name: Build & push
     needs: phpunit_test
     runs-on: ubuntu-latest
 
+    outputs:
+      sha_tag: ${{ steps.sha.outputs.short }}
+      owner:   ${{ steps.owner.outputs.name }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # GHCR user name.
-      - name: Declare owner name
+      - name: Lowercase owner name
         id: owner
         run: |
           LOWER=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')
           echo "name=${LOWER}" >> "$GITHUB_OUTPUT"
 
-      # Short SHA
       - name: Compute short SHA
         id: sha
         run: |
           SHORT=$(echo '${{ github.sha }}' | cut -c1-7)
           echo "short=${SHORT}" >> "$GITHUB_OUTPUT"
 
-      # Buildx
       - name: Setup Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -79,7 +85,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Nginx image
       - name: Build & push web image
         uses: docker/build-push-action@v5
         with:
@@ -91,7 +96,6 @@ jobs:
           cache-from: type=gha,scope=web
           cache-to: type=gha,scope=web,mode=max
 
-      # php-fpm image
       - name: Build & push php image
         uses: docker/build-push-action@v5
         with:
@@ -103,16 +107,73 @@ jobs:
           cache-from: type=gha,scope=php
           cache-to: type=gha,scope=php,mode=max
 
-      # Summary
       - name: Job summary
         run: |
           {
-            echo "### Images build and published"
+            echo "### Built images"
             echo ""
-            echo "Tag SHA: \`${{ steps.sha.outputs.short }}\`"
+            echo "SHA tag: \`${{ steps.sha.outputs.short }}\`"
             echo ""
             echo "- \`${{ env.REGISTRY }}/${{ steps.owner.outputs.name }}/clickykeys-web:${{ steps.sha.outputs.short }}\`"
             echo "- \`${{ env.REGISTRY }}/${{ steps.owner.outputs.name }}/clickykeys-php:${{ steps.sha.outputs.short }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # Deploy freshly built images to the staging
+  deploy-staging:
+    name: Deploy to staging
+    needs: images_build
+    runs-on: ubuntu-latest
+    environment: staging
+
+    concurrency:
+      group: deploy-staging
+      cancel-in-progress: false
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ubuntu
+          key: ${{ secrets.PROD_SSH_KEY }}
+          envs: SHA_TAG,OWNER
+          script: |
+            set -euo pipefail
+
+            REGISTRY="ghcr.io"
+            NAMESPACE="staging"
+
+            echo "==> Deploying tag ${SHA_TAG} to namespace ${NAMESPACE}"
+
+            export KUBECONFIG=/home/ubuntu/.kube/config
+
+            # Update images on both deployments. Kubernetes automatically
+            # creates a new ReplicaSet, preserving the prior one for rollback.
+
+            kubectl set image deployment/nginx-web \
+              nginx=${REGISTRY}/${OWNER}/clickykeys-web:${SHA_TAG} \
+              -n ${NAMESPACE}
+
+            kubectl set image deployment/php-fpm \
+              php-fpm=${REGISTRY}/${OWNER}/clickykeys-php:${SHA_TAG} \
+              -n ${NAMESPACE}
+
+            # Block until both rollouts finish or fail. The 3-minute timeout
+
+            kubectl rollout status deployment/nginx-web -n ${NAMESPACE} --timeout=180s
+            kubectl rollout status deployment/php-fpm  -n ${NAMESPACE} --timeout=180s
+
+            echo "==> Staging deploy complete"
+        env:
+          SHA_TAG: ${{ needs.build.outputs.sha_tag }}
+          OWNER:   ${{ needs.build.outputs.owner }}
+
+      - name: Job summary
+        run: |
+          {
+            echo "### Deployed to staging"
             echo ""
-            echo "New images are avilable on \`:latest\`."
+            echo "Tag: \`${{ needs.build.outputs.sha_tag }}\`"
+            echo "Namespace: \`staging\`"
+            echo ""
           } >> "$GITHUB_STEP_SUMMARY"
