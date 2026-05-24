@@ -1,15 +1,20 @@
-name: Tests
+name: Build images
 
 on:
   push:
-    branches-ignore:
-      - 'dependabot/**'
-  pull_request:
     branches:
       - main
+  workflow_dispatch:        # ręczne uruchomienie z zakładki Actions
+
+permissions:
+  contents: read
+  packages: write           # wymagane do push na GHCR
+
+env:
+  REGISTRY: ghcr.io
 
 jobs:
-  phpunit:
+  phpunit_test:
     name: PHPUnit
     runs-on: ubuntu-latest
 
@@ -33,7 +38,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: php-fpm/vendor
-          key: composer-${{ runner.os }}-${{ hashFiles('php-fpm/composer.json') }}
+          key: composer-${{ runner.os }}-${{ hashFiles('php-fpm/composer.lock', 'php-fpm/composer.json') }}
           restore-keys: composer-${{ runner.os }}-
 
       - name: Install dependencies
@@ -41,3 +46,76 @@ jobs:
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit --testdox
+
+
+  images_build:
+    name: Build & push
+    needs: phpunit_test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # GHCR user name.
+      - name: Declare owner name
+        id: owner
+        run: |
+          LOWER=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')
+          echo "name=${LOWER}" >> "$GITHUB_OUTPUT"
+
+      # Short SHA
+      - name: Compute short SHA
+        id: sha
+        run: |
+          SHORT=$(echo '${{ github.sha }}' | cut -c1-7)
+          echo "short=${SHORT}" >> "$GITHUB_OUTPUT"
+
+      # Buildx
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Nginx image
+      - name: Build & push web image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./website
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ steps.owner.outputs.name }}/clickykeys-web:${{ steps.sha.outputs.short }}
+            ${{ env.REGISTRY }}/${{ steps.owner.outputs.name }}/clickykeys-web:latest
+          cache-from: type=gha,scope=web
+          cache-to: type=gha,scope=web,mode=max
+
+      # php-fpm image
+      - name: Build & push php image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./php-fpm
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ steps.owner.outputs.name }}/clickykeys-php:${{ steps.sha.outputs.short }}
+            ${{ env.REGISTRY }}/${{ steps.owner.outputs.name }}/clickykeys-php:latest
+          cache-from: type=gha,scope=php
+          cache-to: type=gha,scope=php,mode=max
+
+      # Summary
+      - name: Job summary
+        run: |
+          {
+            echo "### Images build and published"
+            echo ""
+            echo "Tag SHA: \`${{ steps.sha.outputs.short }}\`"
+            echo ""
+            echo "- \`${{ env.REGISTRY }}/${{ steps.owner.outputs.name }}/clickykeys-web:${{ steps.sha.outputs.short }}\`"
+            echo "- \`${{ env.REGISTRY }}/${{ steps.owner.outputs.name }}/clickykeys-php:${{ steps.sha.outputs.short }}\`"
+            echo ""
+            echo "New images are avilable on \`:latest\`."
+          } >> "$GITHUB_STEP_SUMMARY"
