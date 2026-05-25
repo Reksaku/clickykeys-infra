@@ -179,7 +179,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
   # Smoke test against the staging URL
-  smoke-test:
+  smoke-test-staging:
     name: Smoke test staging
     needs: deploy-staging
     runs-on: ubuntu-latest
@@ -193,10 +193,10 @@ jobs:
 
       - name: Run smoke test
         env:
-          STAGING_URL: ${{ secrets.STAGING_URL }}
+          BASE_URL: ${{ secrets.STAGING_URL }}
         run: |
-          chmod +x scripts/smoke-staging.sh
-          ./scripts/smoke-staging.sh
+          chmod +x scripts/smoke-check.sh
+          ./scripts/smoke-check.sh
 
       - name: Job summary
         if: success()
@@ -214,5 +214,145 @@ jobs:
             echo "### Smoke test FAILED ✗"
             echo ""
             echo "Staging at \`${{ secrets.STAGING_URL }}\` is not responding correctly."
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  deploy-production:
+    name: Deploy to production
+    needs: 
+      - smoke-test-staging
+      - images_build
+    runs-on: ubuntu-latest
+    environment: production
+
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ubuntu
+          key: ${{ secrets.PROD_SSH_KEY }}
+          envs: SHA_TAG,OWNER,PROD_NAMESPACE,COMMIT_SHA,RUN_URL
+          script: |
+            set -euo pipefail
+
+            REGISTRY="ghcr.io"
+
+            echo "== Deploying tag ${SHA_TAG} to namespace ${PROD_NAMESPACE}"
+
+            export KUBECONFIG=/home/ubuntu/.kube/config
+
+            # Deployments
+            kubectl set image deployment/nginx-web \
+              nginx=${REGISTRY}/${OWNER}/clickykeys-web:${SHA_TAG} \
+              -n ${PROD_NAMESPACE}
+
+            kubectl set image deployment/php-fpm \
+              php-fpm=${REGISTRY}/${OWNER}/clickykeys-php:${SHA_TAG} \
+              -n ${PROD_NAMESPACE}
+
+            # Annotate the deployments
+            kubectl annotate deployment/nginx-web \
+              kubernetes.io/change-cause="GHA ${SHA_TAG} | commit ${COMMIT_SHA:0:7} | ${RUN_URL}" \
+              -n ${PROD_NAMESPACE} --overwrite
+
+            kubectl annotate deployment/php-fpm \
+              kubernetes.io/change-cause="GHA ${SHA_TAG} | commit ${COMMIT_SHA:0:7} | ${RUN_URL}" \
+              -n ${PROD_NAMESPACE} --overwrite
+
+
+            kubectl rollout status deployment/nginx-web -n ${PROD_NAMESPACE} --timeout=180s
+            kubectl rollout status deployment/php-fpm -n ${PROD_NAMESPACE} --timeout=180s
+
+            echo "==> Production deploy complete"
+
+        env:
+          SHA_TAG: ${{ needs.images_build.outputs.sha_tag }}
+          OWNER: ${{ needs.images_build.outputs.owner}}
+          PROD_NAMESPACE: ${{ secrets.PROD_NAMESPACE }}
+          COMMIT_SHA: ${{ github.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      
+      - name: Job summary
+        run: |
+          {
+            echo "### Deployed to production"
+            echo ""
+            echo "Tag: \`${{ needs.images_build.outputs.sha_tag }}\`"
+            echo "Namespace: \`${{ secrets.PROD_NAMESPACE }}\`"
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  smoke-test-production:
+    name: Smoke test production
+    needs: 
+      - deploy-production
+      - images_build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (for smoke script)
+        uses: actions/checkout@v4
+
+      - name: Wait for traffic to settle
+        run: sleep 10
+
+      - name: Run smoke test
+        env:
+          BASE_URL: ${{ secrets.PROD_URL }}
+        run: |
+          chmod +x scripts/smoke-check.sh
+          ./scripts/smoke-check.sh
+
+      - name: Job summary
+        if: success()
+        run: |
+          {
+            echo "### Smoke test passed ✓"
+            echo ""
+            echo "Endpoint: \`${{ secrets.PROD_URL }}/api/healthz.php\` returned HTTP 200 with healthy payload."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Rollback on smoke failure
+        if: failure()
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ubuntu
+          key: ${{ secrets.PROD_SSH_KEY }}
+          envs: PROD_NAMESPACE
+          script: |
+            set -euo pipefail
+            export KUBECONFIG=/home/ubuntu/.kube/config
+
+            echo "==> SMOKE FAILED — rolling back to previous ReplicaSet"
+
+            kubectl rollout undo deployment/nginx-web -n ${PROD_NAMESPACE}
+            kubectl rollout undo deployment/php-fpm  -n ${PROD_NAMESPACE}
+
+            kubectl annotate deployment/nginx-web \
+              kubernetes.io/change-cause="AUTO-ROLLBACK: smoke test failed" \
+              -n ${PROD_NAMESPACE} --overwrite
+            kubectl annotate deployment/php-fpm \
+              kubernetes.io/change-cause="AUTO-ROLLBACK: smoke test failed" \
+              -n ${PROD_NAMESPACE} --overwrite
+
+            kubectl rollout status deployment/nginx-web -n ${PROD_NAMESPACE} --timeout=180s
+            kubectl rollout status deployment/php-fpm  -n ${PROD_NAMESPACE} --timeout=180s
+
+            echo "==> Rollback complete. Production is back on previous version."
+        env:
+          PROD_NAMESPACE: ${{ secrets.PROD_NAMESPACE }}
+      
+      - name: Failure summary
+        if: failure() 
+        run: |
+          {
+            echo "### ✗ PRODUCTION SMOKE FAILED — auto-rollback attempted"
+            echo ""
+            echo "Deploy tag: \`${{ needs.images_build.outputs.sha_tag }}\`"
             echo ""
           } >> "$GITHUB_STEP_SUMMARY"
