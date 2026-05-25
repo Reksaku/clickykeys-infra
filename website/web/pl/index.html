@@ -3,24 +3,115 @@
 <head>
 
     <meta charset="UTF-8" />
-    <title>ClickyKeys – licz swoje klawisze i kliknięcia</title>
+    <title>ClickyKeys – Darmowy licznik klawiszy i kliknięć dla streamerów | Windows</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="ClickyKeys – mała aplikacja dla graczy i geeków, która liczy wciskane klawisze i przyciski myszy i pokazuje je w konfigurowalnym panelu. Idealne do streamów i nagrań." />
+    <meta name="description" content="ClickyKeys – darmowa aplikacja open-source na Windows, która zlicza wciśnięcia klawiszy i kliknięcia myszy i pokazuje je w konfigurowalnym panelu OBS. Idealna dla streamerów i graczy." />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://clickykeys.fun/pl/" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content="ClickyKeys" />
-    <meta property="og:description" content="Licz swoje klawisze i kliknięcia w konfigurowalnym panelu." />
+    <meta property="og:title" content="ClickyKeys – Darmowy licznik klawiszy i kliknięć dla streamerów" />
+    <meta property="og:description" content="Darmowa aplikacja Windows zliczająca wciśnięcia klawiszy i kliknięcia myszy w konfigurowalnym panelu overlay. Idealna do streamów OBS." />
     <meta property="og:image" content="https://clickykeys.fun/img/clickykeys-main.png" />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://clickykeys.fun/pl/" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:locale:alternate" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ClickyKeys – Darmowy licznik klawiszy i kliknięć dla streamerów" />
+    <meta name="twitter:description" content="Darmowa aplikacja Windows zliczająca wciśnięcia klawiszy i kliknięcia myszy w konfigurowalnym panelu overlay. Idealna do streamów OBS." />
+    <meta name="twitter:image" content="https://clickykeys.fun/img/clickykeys-main.png" />
 
     <!-- hreflang -->
     <link rel="alternate" hreflang="en" href="https://clickykeys.fun/" />
     <link rel="alternate" hreflang="pl" href="https://clickykeys.fun/pl/" />
     <link rel="alternate" hreflang="x-default" href="https://clickykeys.fun/" />
 
+    <!-- Structured data: SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "ClickyKeys",
+      "operatingSystem": "Windows",
+      "applicationCategory": "GameApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "PLN"
+      },
+      "description": "ClickyKeys to darmowa aplikacja desktopowa na Windows z otwartym kodem źródłowym, która śledzi liczbę wciśnięć wybranych klawiszy i przycisków myszy i wyświetla je w konfigurowalnym panelu overlay. Przeznaczona dla streamerów, twórców treści i graczy korzystających z OBS.",
+      "url": "https://clickykeys.fun/pl/",
+      "downloadUrl": "https://apps.microsoft.com/store/detail/9PJT83WPC06K",
+      "softwareVersion": "latest",
+      "license": "https://opensource.org/licenses/GPL-3.0",
+      "author": {
+        "@type": "Person",
+        "name": "Reksaku",
+        "url": "https://github.com/Reksaku"
+      },
+      "codeRepository": "https://github.com/Reksaku/ClickyKeys",
+      "screenshot": "https://clickykeys.fun/img/Animation.gif",
+      "inLanguage": "pl"
+    }
+    </script>
+
+    <!-- Structured data: FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Czy ClickyKeys zapisuje lub wysyła moje dane?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nie. ClickyKeys tylko zlicza lokalnie Twoje kliknięcia i wciśnięcia klawiszy oraz wyświetla je w panelu. Żadne dane nie są zapisywane ani nigdzie wysyłane. Kod jest w pełni otwarty i można go zweryfikować na GitHubie."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Na jakich systemach działa ClickyKeys?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Obecnie ClickyKeys obsługuje wyłącznie Windows (aplikacja desktopowa). Jeżeli chcesz pomóc z portem na inne systemy, odezwij się przez GitHub."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Czy mogę zmienić wygląd panelu ClickyKeys?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tak. Możesz zmieniać układ, rozmiar przycisków, kolory, czcionkę i włączyć eksperymentalny animowany motyw tęczowy."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Czy ClickyKeys jest darmowy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tak, ClickyKeys jest całkowicie darmowy i open-source na licencji GPL-3.0. Dostępny w Sklepie Microsoft i jako przenośna wersja na GitHubie."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Jak używać ClickyKeys z OBS?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pobierz i uruchom ClickyKeys, wybierz klawisze do śledzenia, a następnie w OBS dodaj źródło przechwytywania okna wskazujące na panel ClickyKeys. Użyj wbudowanego koloru tła do chroma key lub włącz tryb przezroczystości, aby nałożyć overlay bezpośrednio na stream."
+          }
+        }
+      ]
+    }
+    </script>
+
     <!-- External CSS -->
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/theme-light.css">
+    <link rel="stylesheet" href="/css/theme-light.css" data-theme>
     <link rel="icon" type="image/png" href="/img/Icon.png">
 
     <!-- Tracking -->
@@ -39,15 +130,17 @@
             <div>
                 <div class="logo-text-main">ClickyKeys</div>
                 <div class="logo-text-sub">
-                    Key & click counter dla graczy i geeków
+                    Key &amp; click counter dla graczy i geeków
                 </div>
             </div>
         </div>
 
         <nav>
+            <a href="#about">O aplikacji</a>
             <a href="#features">Funkcje</a>
             <a href="#downloads">Pobierz</a>
             <a href="#screenshots">Screeny</a>
+            <a href="#changelog">Co nowego</a>
             <a href="#faq">FAQ</a>
             <a href="https://github.com/Reksaku/ClickyKeys" target="_blank" rel="noopener">GitHub</a>
 
@@ -63,6 +156,11 @@
                 onclick="try{localStorage.setItem('ck_lang_preference','en');}catch(e){}">
                 EN
                 </a>
+            </div>
+
+            <!-- theme toggle -->
+            <div class="theme-switch">
+                <button class="theme-btn" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
             </div>
         </nav>
     </header>
@@ -105,9 +203,29 @@
                 </div>
 
                 <div class="hero-note">
-                    Otwarty kod (<strong>GPL-3.0</strong>).
+                    Otwarty kod (<strong>GPL-3.0</strong>). Zawsze darmowy. · Zainstalowany przez <strong>500+ osób</strong>.
                 </div>
             </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about" class="section">
+            <h2 class="section-title">Czym jest ClickyKeys?</h2>
+            <p class="section-subtitle">
+                ClickyKeys to darmowa aplikacja desktopowa na Windows z otwartym kodem źródłowym,
+                która śledzi i wyświetla liczbę wciśnięć wybranych klawiszy klawiatury i przycisków
+                myszy. Przeznaczona dla streamerów, twórców treści i graczy, którzy chcą mieć
+                lekki, konfigurowalny licznik klawiszy w formie overlay w OBS lub podobnym
+                oprogramowaniu. ClickyKeys działa wyłącznie lokalnie – żadne dane nie są zbierane
+                ani wysyłane. Napisana w C#, licencja GPL-3.0.
+            </p>
+            <figure style="margin: 1.5rem 0 0;">
+                <center>
+                    <img src="/img/screenshot-lavender.png"
+                         alt="Panel overlay ClickyKeys pokazujący śledzowane klawisze i liczniki kliknięć w czasie rzeczywistym"
+                         style="width: 80%; height: auto; display: block; border-radius: 10px; border: 1px solid rgba(0,0,0,0.07);" />
+                </center>
+            </figure>
         </section>
 
         <!-- FEATURES -->
@@ -145,9 +263,9 @@
 
                 <article class="feature-card">
                     <div class="feature-kicker">Kolory</div>
-                    <div class="feature-title">Eksperymentalny rainbow theme</div>
+                    <div class="feature-title">Animowany rainbow theme</div>
                     <div class="feature-body">
-                        Tęczowa, animowana wersja tła – przyciąga uwagę widzów i nadaje overlayowi streamerowego klimatu.
+                        Płynna, zapętlona tęczowa animacja tła – przyciąga uwagę widzów i nadaje overlayowi streamerowego klimatu.
                     </div>
                 </article>
 
@@ -156,7 +274,8 @@
                     <div class="feature-title">Przyjazne OBS</div>
                     <div class="feature-body">
                         <ul>
-                            <li>Kolor tła zaprojektowany z myślą o łatwym chroma key.</li>
+                            <li>Kolor tła zaprojektowany z myślą o łatwym chroma key
+                                nawet <strong>bez green screena</strong>.</li>
                             <li>Idealne jako mały panel z klawiszami w rogu ekranu.</li>
                         </ul>
                     </div>
@@ -171,8 +290,35 @@
                 </article>
 
                 <article class="feature-card">
+                    <div class="feature-kicker">Profile</div>
+                    <div class="feature-title">Zapis i ładowanie profili stylów</div>
+                    <div class="feature-body">
+                        Twórz wiele konfiguracji wyglądu i przełączaj się między nimi jednym kliknięciem.
+                        Idealne, gdy streamujesz różne gry lub używasz różnych overlayów.
+                    </div>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-kicker">Aktualizacje</div>
+                    <div class="feature-title">Automatyczne powiadomienia o aktualizacjach</div>
+                    <div class="feature-body">
+                        ClickyKeys automatycznie sprawdza dostępność nowych wersji
+                        i powiadamia Cię, gdy pojawi się aktualizacja – bez ręcznego sprawdzania.
+                    </div>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-kicker">Statystyki</div>
+                    <div class="feature-title">Lokalne statystyki wciśnięć klawiszy</div>
+                    <div class="feature-body">
+                        Śledź długoterminowe statystyki użycia klawiszy zapisywane wyłącznie
+                        na Twoim urządzeniu – bez chmury, bez konta.
+                    </div>
+                </article>
+
+                <article class="feature-card">
                     <div class="feature-kicker">Open source</div>
-                    <div class="feature-title">GPL-3.0 & C#</div>
+                    <div class="feature-title">GPL-3.0 &amp; C#</div>
                     <div class="feature-body">
                         Aplikacja napisana w C#, licencja GPL-3.0 – możesz przejrzeć kod,
                         uczyć się na nim albo dołożyć własne usprawnienia.
@@ -269,31 +415,103 @@
         <!-- SCREENSHOTS -->
         <section id="screenshots" class="section">
             <h2 class="section-title">Jak to wygląda?</h2>
-
             <p class="section-subtitle">
-                W podstawowej wersji ClickyKeys to intuicyjny panel statystyk.
+                Kolory, czcionki, układ siatki – wszystko ustawiasz sam. To tylko trzy przykłady tego, co tworzą użytkownicy.
             </p>
 
-            <figure class="screenshot small">
-                <img src="/img/Animation.gif" alt="Panel ClickyKeys z licznikami klawiszy"/>
-            </figure>
+            <style>
+                .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 0.75rem; }
+                .screenshot-thumb { display: flex; flex-direction: column; gap: 6px; }
+                .screenshot-thumb img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); }
+                .screenshot-thumb span { font-size: 12px; color: #888; text-align: center; }
+                .screenshot-caption { font-size: 13px; color: #aaa; text-align: center; margin-bottom: 2rem; font-style: italic; }
+                .screenshots-label { font-size: 13px; font-weight: 500; color: #aaa; margin-bottom: 0.6rem; text-transform: uppercase; letter-spacing: 0.04em; }
+                @media (max-width: 600px) { .theme-grid { grid-template-columns: 1fr 1fr; } }
+            </style>
 
-            <br>
+            <div class="theme-grid">
+                <div class="screenshot-thumb">
+                    <img src="/img/screenshot-dark.png" alt="ClickyKeys motyw ciemny – biały i czerwony tekst na ciemnym tle" />
+                    <span>Dark</span>
+                </div>
+                <div class="screenshot-thumb">
+                    <img src="/img/screenshot-blue.png" alt="ClickyKeys motyw niebieski – fioletowy i turkusowy tekst" />
+                    <span>Blue</span>
+                </div>
+                <div class="screenshot-thumb">
+                    <img src="/img/screenshot-orange.png" alt="ClickyKeys motyw pomarańczowy – czarny tekst na pomarańczowych panelach" />
+                    <span>Orange</span>
+                </div>
+            </div>
+            <p class="screenshot-caption">W pełni konfigurowalny – dowolne kolory, czcionka i układ według Twoich preferencji.</p>
+            <center>
+                <div class="screenshots-label">Animowany tryb rainbow</div>
+                <figure class="screenshot large" style="margin: 0 0 2rem;">
+                    <img src="/img/Rainbow_animation.gif" alt="ClickyKeys z włączonym animowanym tłem rainbow – overlay OBS" />
+                </figure>
+            </center>
 
+        </section>
+
+        <!-- CHANGELOG -->
+        <section id="changelog" class="section">
+            <h2 class="section-title">Co nowego</h2>
             <p class="section-subtitle">
-                A jeśli nudzi Cię jeden kolor – możesz postawić na gamingową tęczę.
+                ClickyKeys jest aktywnie rozwijany. Oto podsumowanie ostatnich wersji.
             </p>
 
-            <figure class="screenshot large">
-                <img src="/img/Rainbow_animation.gif" alt="ClickyKeys z włączonym motywem rainbow"/>
-            </figure>
+            <div class="faq-grid">
+                <div>
+                    <div class="faq-item">
+                        <div class="faq-q">v2.3.0 — Lokalne statystyki wciśnięć</div>
+                        <div>Śledź długoterminowe statystyki użycia klawiszy zapisywane wyłącznie na Twoim urządzeniu – bez chmury, bez konta.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">v2.2.1 — Zapis i ładowanie profili stylów</div>
+                        <div>Twórz wiele konfiguracji wyglądu i przełączaj się między nimi jednym kliknięciem – przydatne przy streamowaniu różnych gier.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">v2.1.1 — Automatyczne powiadomienia o aktualizacjach</div>
+                        <div>Aplikacja sama sprawdza nowe wersje i informuje Cię, gdy pojawi się aktualizacja.</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="faq-item">
+                        <div class="faq-q">v2.1.0 — Rainbow theme &amp; personalizacja czcionki</div>
+                        <div>Animowane tęczowe tło oraz pełna kontrola nad krojem i rozmiarem czcionki w panelu overlay.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">v2.0.0 — Przepisanie w WPF</div>
+                        <div>Cała aplikacja przepisana od podstaw dla lepszej wydajności, stabilności i nowoczesnego interfejsu.</div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem; font-size: 14px; color: var(--color-text-secondary, #666); text-align: center;">
+                Nowe funkcje są wprowadzane regularnie – aplikacja z każdą aktualizacją staje się lepsza.
+            </p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1rem;">
+                <center>
+                    <img src="/img/screenshot-settings.png"
+                         alt="Panel ustawień ClickyKeys – kolory, czcionki, układ siatki i profile"
+                         style="width: auto; height: 700px; display: block; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08);" />
+                    <span style="font-size: 12px; color: #888; display: block; margin-top: 6px;">Ustawienia – kolory, czcionki i profile</span>
+                </center>
+                <center>
+                    <img src="/img/screenshot-stats.png"
+                         alt="Okno statystyk ClickyKeys – łączne liczniki od pierwszego uruchomienia"
+                         style="width: auto; height: 700px; display: block; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08);" />
+                    <span style="font-size: 12px; color: #888; display: block; margin-top: 6px;">Statystyki – liczniki klawiszy i kliknięć od pierwszego uruchomienia</span>
+                </center>
+            </div>
         </section>
 
         <!-- FAQ -->
         <section id="faq" class="section">
             <h2 class="section-title">FAQ</h2>
             <p class="section-subtitle">
-                Najczęstsze pytania, które mogą się pojawić u użytkowników.
+                Najczęstsze pytania o ClickyKeys.
             </p>
 
             <div class="faq-grid">
@@ -303,7 +521,8 @@
                         <div class="faq-q">Czy ClickyKeys zapisuje moje dane lub wysyła je gdzieś?</div>
                         <div>
                             Nie. Aplikacja po prostu zlicza lokalnie Twoje kliknięcia i klawisze
-                            oraz wyświetla je w panelu. Kod jest otwarty – możesz to samemu sprawdzić w repozytorium.
+                            oraz wyświetla je w panelu. Żadne dane nie są zapisywane ani wysyłane.
+                            Kod jest otwarty – możesz to samemu sprawdzić w repozytorium.
                         </div>
                     </div>
 
@@ -319,12 +538,31 @@
                         <div class="faq-q">Czy mogę zmienić wygląd panelu?</div>
                         <div>
                             Tak. Możesz zmieniać układ, rozmiar przycisków, kolory, czcionkę
-                            i skorzystać z eksperymentalnego motywu tęczowego.
+                            i skorzystać z animowanego motywu tęczowego.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-q">Czy ClickyKeys jest darmowy?</div>
+                        <div>
+                            Tak, ClickyKeys jest całkowicie darmowy i open-source na licencji GPL-3.0.
+                            Dostępny w Sklepie Microsoft i jako przenośna wersja na GitHubie.
                         </div>
                     </div>
                 </div>
 
                 <div>
+
+                    <div class="faq-item">
+                        <div class="faq-q">Jak używać ClickyKeys z OBS?</div>
+                        <div>
+                            Uruchom ClickyKeys i wybierz klawisze do śledzenia.
+                            W OBS dodaj źródło przechwytywania okna wskazujące na panel ClickyKeys.
+                            Użyj wbudowanego koloru tła do chroma key lub włącz tryb
+                            przezroczystości, aby nałożyć overlay bezpośrednio na stream.
+                        </div>
+                    </div>
+
                     <div class="faq-item">
                         <div class="faq-q">Chcę zgłosić błąd lub propozycję funkcji.</div>
                         <div>
@@ -337,10 +575,12 @@
                     <div class="faq-item">
                         <div class="faq-q">Plany rozwoju?</div>
                         <div>
-                            W planach są m.in. profile stylów i bardziej rozbudowane statystyki.
-                            Szczegóły znajdziesz w repozytorium projektu.
+                            Na liście są bardziej rozbudowane statystyki.
+                            Profile stylów są już dostępne od wersji 2.2.1.
+                            Postęp i dyskusje znajdziesz w repozytorium projektu.
                         </div>
                     </div>
+
                 </div>
 
             </div>
@@ -363,5 +603,48 @@
     document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
+
+<script>
+  (function() {
+    var STORAGE_KEY = 'ck_theme';
+    var sheet = document.querySelector('link[data-theme]');
+    var btn   = document.getElementById('theme-toggle');
+
+    function applyTheme(dark) {
+      sheet.href = dark ? '/css/theme-neon.css' : '/css/theme-light.css';
+      btn.textContent = dark ? '☀️' : '🌙';
+      btn.classList.toggle('active', dark);
+      try { localStorage.setItem(STORAGE_KEY, dark ? 'dark' : 'light'); } catch(e){}
+    }
+
+    // 1. Check saved preference
+    var saved = null;
+    try { saved = localStorage.getItem(STORAGE_KEY); } catch(e){}
+
+    if (saved === 'dark') {
+      applyTheme(true);
+    } else if (saved === 'light') {
+      applyTheme(false);
+    } else {
+      // 2. No saved preference – follow OS/browser setting
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDark) applyTheme(true);
+    }
+
+    // 3. React to OS theme changes in real time (if user hasn't overridden manually)
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        var manualChoice = null;
+        try { manualChoice = localStorage.getItem(STORAGE_KEY); } catch(err){}
+        if (!manualChoice) applyTheme(e.matches);
+      });
+    }
+
+    // 4. Manual toggle – saves preference, stops auto-follow
+    btn.addEventListener('click', function() {
+      applyTheme(sheet.href.indexOf('theme-neon') === -1);
+    });
+  })();
+</script>
 </body>
 </html>
