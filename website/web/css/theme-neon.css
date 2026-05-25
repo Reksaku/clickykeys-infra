@@ -18,3 +18,7 @@
 body {
     background: radial-gradient(circle at top, #1b1f3b 0, #050716 55%);
 }
+
+header {
+    border-radius: 999px;
+}
