@@ -59,3 +59,21 @@ CREATE TABLE IF NOT EXISTS api_requests (
   version VARCHAR(10) DEFAULT NULL,
   distribution VARCHAR(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS changelog (
+    id              INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    version         VARCHAR(10)  NOT NULL,
+    version_major   TINYINT UNSIGNED NOT NULL,
+    version_minor   TINYINT UNSIGNED NOT NULL,
+    version_patch   TINYINT UNSIGNED NOT NULL,
+    release_date    DATE         NOT NULL,
+    change_type     ENUM('new', 'fix', 'change', 'breaking', 'security', 'info') NOT NULL DEFAULT 'new',
+    summary         VARCHAR(255) NOT NULL,
+    detail          TEXT         DEFAULT NULL,
+    is_published    TINYINT(1)   NOT NULL DEFAULT 1,
+    INDEX idx_semver      (version_major, version_minor, version_patch),
+    INDEX idx_release_date (release_date),
+    INDEX idx_published   (is_published)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+ALTER TABLE changelog
+    MODIFY COLUMN is_published BOOLEAN NOT NULL DEFAULT 1;

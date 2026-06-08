@@ -79,6 +79,15 @@ if (stripos($userAgent, 'Distro') !== false) {
     }
 }
 
+$clientTrigger = 'user_start';
+if (stripos($userAgent, 'Trigger') !== false) {
+    if (preg_match('/Trigger\/([A-Za-z]+)/', $userAgent, $matches)) {
+        if ($matches[1] == 'user_start' || $matches[1]  == 'auto_start') {
+            $clientTrigger = $matches[1];
+        }
+    }
+}
+
 $sql = "
     INSERT INTO api_requests (
         requested_at,
@@ -86,7 +95,8 @@ $sql = "
         anon_ip,
         client_type,
 	    version,
-        distribution
+        distribution,
+        trigger_type
     )
     VALUES (
         NOW(),
@@ -94,7 +104,8 @@ $sql = "
         :anon_ip,
         :client_type,
 	    :version,
-        :distribution
+        :distribution,
+        :trigger_type
     )
 ";
 
@@ -104,7 +115,8 @@ $stmt->execute([
     ':anon_ip'         => $anonIp,
     ':client_type'     => $clientType,
     ':version'	       => $clientVersion,
-    ':distribution'    => $clientDistribution
+    ':distribution'    => $clientDistribution,
+    ':trigger_type'    => $clientTrigger
 ]);
 
 
