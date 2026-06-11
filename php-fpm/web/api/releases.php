@@ -81,7 +81,7 @@ if (stripos($userAgent, 'Distro') !== false) {
 
 $clientTrigger = 'user_start';
 if (stripos($userAgent, 'Trigger') !== false) {
-    if (preg_match('/Trigger\/([A-Za-z]+)/', $userAgent, $matches)) {
+    if (preg_match('/Trigger\/([A-Za-z_]+)/', $userAgent, $matches)) {
         if ($matches[1] == 'user_start' || $matches[1]  == 'auto_start') {
             $clientTrigger = $matches[1];
         }
