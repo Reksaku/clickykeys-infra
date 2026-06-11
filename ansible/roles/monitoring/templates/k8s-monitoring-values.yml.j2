@@ -1,0 +1,73 @@
+cluster:
+  name: {{ project_name }}
+
+destinations:
+  grafana-cloud-metrics:
+    type: prometheus
+    url: {{ grafana_cloud_metrics_url }}
+    auth:
+      type: basic
+      username: "{{ grafana_cloud_metrics_username }}"
+      password: {{ grafana_cloud_api_key }}
+
+  grafana-cloud-logs:
+    type: loki
+    url: {{ grafana_cloud_logs_url }}
+    auth:
+      type: basic
+      username: "{{ grafana_cloud_logs_username }}"
+      password: {{ grafana_cloud_api_key }}
+
+clusterMetrics:
+  enabled: true
+  collector: alloy-metrics
+
+hostMetrics:
+  enabled: true
+  collector: alloy-metrics
+  linuxHosts:
+    enabled: true
+  windowsHosts:
+    enabled: false
+  energyMetrics:
+    enabled: false
+
+costMetrics:
+  enabled: false
+
+clusterEvents:
+  enabled: true
+  collector: alloy-singleton
+
+podLogsViaLoki:
+  enabled: true
+  collector: alloy-logs
+
+collectors:
+  alloy-metrics:
+    presets:
+      - statefulset
+  alloy-singleton:
+    presets:
+      - singleton
+  alloy-logs:
+    presets:
+      - filesystem-log-reader
+      - daemonset
+
+collectorCommon:
+  alloy:
+    remoteConfig:
+      enabled: false
+
+telemetryServices:
+  kube-state-metrics:
+    deploy: true
+  node-exporter:
+    deploy: true
+  windows-exporter:
+    deploy: false
+  opencost:
+    deploy: false
+  kepler:
+    deploy: false

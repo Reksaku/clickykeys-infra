@@ -35,3 +35,10 @@ environments:
     web_image_tag: latest
     php_image_tag: latest
     php_replicas: 1
+
+# ── Grafana Cloud ──
+grafana_cloud_metrics_url: "{{ vault_grafana_cloud_metrics_url }}"
+grafana_cloud_metrics_username: "{{ vault_grafana_cloud_metrics_username }}"
+grafana_cloud_logs_url: "{{ vault_grafana_cloud_logs_url }}"
+grafana_cloud_logs_username: "{{ vault_grafana_cloud_logs_username }}"
+grafana_cloud_api_key: "{{ vault_grafana_cloud_api_key }}"

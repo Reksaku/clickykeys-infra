@@ -18,3 +18,10 @@ vault_staging_email: admin@example.com
 vault_staging_mysql_database: clickykeys_staging
 vault_staging_mysql_user_name: clickykeys_staging
 vault_staging_mysql_user_password: CHANGE_ME
+
+# ── Grafana Cloud ──
+vault_grafana_cloud_metrics_url: CHANGE_ME
+vault_grafana_cloud_metrics_username: CHANGE_ME
+vault_grafana_cloud_logs_url: CHANGE_ME
+vault_grafana_cloud_logs_username: CHANGE_ME
+vault_grafana_cloud_api_key: CHANGE_ME

@@ -24,6 +24,7 @@
     - helm
     - mysql
     - k8s_cluster     # cluster-wide resources
+    - monitoring       # cluster-wide monitoring stack
 
   # Application resources applied per environment
   tasks:

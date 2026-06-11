@@ -1,0 +1,46 @@
+---
+
+- name: Install grafana/k8s-monitoring as ubuntu user
+  shell: |
+    helm repo add grafana https://grafana.github.io/helm-charts
+    helm repo update
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+- name: Create directory for monitoring manifests
+  file:
+    path: /home/ubuntu/manifests/monitoring
+    state: directory
+    owner: ubuntu
+    mode: '0700'
+
+- name: Render values from Vault
+  template:
+    src: k8s-monitoring-values.yml.j2
+    dest: /home/ubuntu/manifests/monitoring/k8s-monitoring-values.yml
+    owner: ubuntu
+    mode: '0600'
+  no_log: true
+
+- name: Install grafana/k8s-monitoring
+  shell: |
+    helm upgrade --install --atomic --timeout 300s \
+      grafana-k8s-monitoring grafana/k8s-monitoring \
+      --version "^4" \
+      --namespace monitoring \
+      --create-namespace \
+      --values /home/ubuntu/manifests/monitoring/k8s-monitoring-values.yml
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+  register: helm_result
+  changed_when: "'has been upgraded' in helm_result.stdout or 'has been deployed' in helm_result.stdout"
+
+- name: Wait for alloy-metrics to be ready
+  shell: |
+    kubectl rollout status statefulset/grafana-k8s-monitoring-alloy-metrics \
+      -n monitoring --timeout=120s
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
