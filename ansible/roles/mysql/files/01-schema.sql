@@ -57,7 +57,8 @@ CREATE TABLE IF NOT EXISTS api_requests (
   anon_ip VARCHAR(32) DEFAULT NULL,
   client_type ENUM('browser', 'application', 'other') DEFAULT 'other',
   version VARCHAR(10) DEFAULT NULL,
-  distribution VARCHAR(10) DEFAULT NULL
+  distribution VARCHAR(10) DEFAULT NULL,
+  trigger_type ENUM('auto_start', 'user_start', 'update', 'sponsorship', 'not specified') NOT NULL DEFAULT 'not specified'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS changelog (
@@ -77,3 +78,10 @@ CREATE TABLE IF NOT EXISTS changelog (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ALTER TABLE changelog
     MODIFY COLUMN is_published BOOLEAN NOT NULL DEFAULT 1;
+
+CREATE TABLE IF NOT EXISTS sponsorship (
+		id              	INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    publication_date  DATE         NOT NULL,
+    service          	TEXT         DEFAULT NULL,
+    link          		TEXT         DEFAULT NULL
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
