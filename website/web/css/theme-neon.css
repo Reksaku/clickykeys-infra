@@ -1,14 +1,14 @@
-/* theme-neon.css – obecny wygląd */
+/* theme-neon.css – ciemny motyw (lekko rozjaśniony, ten sam odcień) */
 
 :root {
-    --bg: #050716;
-    --bg-alt: #0c0f23;
+    --bg: #0c0f24;
+    --bg-alt: #161a32;
     --accent: #ff6bcb;
     --accent-soft: rgba(255,107,203,0.2);
     --accent-2: #40c9ff;
     --text: #f7f7ff;
-    --muted: #a0a4c0;
-    --border: #20243d;
+    --muted: #a8accb;
+    --border: #2a2f4d;
     --radius-lg: 18px;
     --radius-md: 12px;
     --radius-sm: 999px;
@@ -16,9 +16,22 @@
 }
 
 body {
-    background: radial-gradient(circle at top, #1b1f3b 0, #050716 55%);
+    background: radial-gradient(circle at top, #262b4d 0, #0c0f24 55%);
 }
 
 header {
     border-radius: 999px;
+}
+
+.section {
+    background: rgba(18,22,45,0.9);
+}
+
+.feature-card,
+.changelog-entry {
+    background: linear-gradient(145deg, #141833, #0e1228);
+}
+
+.download-card {
+    background: rgba(20,24,48,0.82);
 }
