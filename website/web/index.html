@@ -141,13 +141,24 @@
         </div>
 
         <nav aria-label="Main navigation">
-            <a href="#about">About</a>
-            <a href="#features">Features</a>
             <a href="#downloads">Download</a>
-            <a href="#screenshots">Screenshots</a>
-            <a href="#changelog">What's new</a>
+            <a href="/screenshots">Screenshots</a>
+            <a href="/whats-new">What's new</a>
+            <a href="/about">Author</a>
             <a href="#faq">FAQ</a>
-            <a href="https://github.com/Reksaku/ClickyKeys" target="_blank" rel="noopener">GitHub</a>
+
+            <!-- links dropdown -->
+            <div class="nav-dropdown" data-dropdown>
+                <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                    Links <span class="caret">▾</span>
+                </button>
+                <div class="nav-dropdown-menu" role="menu">
+                    <a href="https://github.com/Reksaku/ClickyKeys" target="_blank" rel="noopener"
+                       data-track-click data-track-label="Nav GitHub">★ GitHub</a>
+                    <a href="https://apps.microsoft.com/store/detail/9PJT83WPC06K?cid=DevShareMCLPCS" target="_blank" rel="noopener"
+                       data-track-click data-track-label="Nav Microsoft Store">⬇ Microsoft Store</a>
+                </div>
+            </div>
 
             <!-- language switch -->
             <div class="lang-switch">
@@ -419,106 +430,6 @@
             </div>
         </section>
 
-        <!-- SCREENSHOTS -->
-        <section id="screenshots" class="section">
-            <h2 class="section-title">How does it look?</h2>
-            <p class="section-subtitle">
-                Colors, fonts, grid layout – everything is yours to set. These are just three examples of what users create.
-            </p>
-
-            <style>
-                .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 0.75rem; }
-                .screenshot-thumb { display: flex; flex-direction: column; gap: 6px; }
-                .screenshot-thumb img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); }
-                .screenshot-thumb span { font-size: 12px; color: #888; text-align: center; }
-                .screenshot-caption { font-size: 13px; color: #aaa; text-align: center; margin-bottom: 2rem; font-style: italic; }
-                .screenshots-label { font-size: 13px; font-weight: 500; color: #aaa; margin-bottom: 0.6rem; text-transform: uppercase; letter-spacing: 0.04em; }
-                @media (max-width: 600px) { .theme-grid { grid-template-columns: 1fr 1fr; } }
-            </style>
-
-            <div class="theme-grid">
-                <div class="screenshot-thumb">
-                    <img src="/img/screenshot-dark.png" alt="ClickyKeys dark theme – white and red text on dark background" />
-                    <span>Dark</span>
-                </div>
-                <div class="screenshot-thumb">
-                    <img src="/img/screenshot-blue.png" alt="ClickyKeys blue theme – purple and teal text on light blue" />
-                    <span>Blue</span>
-                </div>
-                <div class="screenshot-thumb">
-                    <img src="/img/screenshot-orange.png" alt="ClickyKeys orange theme – black text on orange panels" />
-                    <span>Orange</span>
-                </div>
-            </div>
-            <p class="screenshot-caption">Fully customizable – any colors, any font, any layout you want.</p>
-
-            <center>
-                <div class="screenshots-label">Animated rainbow mode</div>
-                <figure class="screenshot large" style="margin: 0 0 2rem;">
-                    <img src="/img/Rainbow_animation.gif" alt="ClickyKeys with animated rainbow background enabled – OBS overlay" />
-                </figure>
-            </center>
-
-        </section>
-
-        <!-- CHANGELOG -->
-        <section id="changelog" class="section">
-            <h2 class="section-title">What's new</h2>
-            <p class="section-subtitle">
-                ClickyKeys is actively developed. Here's a summary of recent releases.
-            </p>
-
-            <div class="faq-grid">
-                <div>
-                    <div class="faq-item">
-                        <div class="faq-q">v2.3.0 — Local key press statistics</div>
-                        <div>Track your long-term key usage with built-in local statistics. All data stays on your device – no cloud, no account needed.</div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-q">v2.2.1 — Save &amp; load style profiles</div>
-                        <div>Create multiple style configurations and switch between them instantly – useful when you stream different games or use different overlays.</div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-q">v2.1.1 — Auto-update notifications</div>
-                        <div>The app now checks for new versions automatically and lets you know when an update is available.</div>
-                    </div>
-                </div>
-                <div>
-                    <div class="faq-item">
-                        <div class="faq-q">v2.1.0 — Rainbow theme &amp; font customization</div>
-                        <div>Animated rainbow background and full control over font family and text size for your overlay panel.</div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-q">v2.0.0 — Full rewrite in WPF</div>
-                        <div>The entire app was rebuilt from the ground up for better performance, stability, and a modern interface.</div>
-                    </div>
-                </div>
-            </div>
-
-            <p style="margin-top: 2rem; font-size: 14px; color: var(--color-text-secondary, #666); text-align: center;">
-                New features are released regularly — the app keeps getting better with every update.
-            </p>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1rem;">
-                <div style="text-align: center;">
-                    <img src="/img/screenshot-settings.png"
-                         alt="ClickyKeys Settings panel – colors, fonts, grid layout and profiles"
-                         width="632" height="1308"
-                         loading="lazy" decoding="async"
-                         style="width: 100%; max-height: 700px; height: auto; object-fit: contain; display: block; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08);" />
-                    <span style="font-size: 12px; color: #888; display: block; margin-top: 6px;">Settings – colors, fonts &amp; profiles</span>
-                </div>
-                <div style="text-align: center;">
-                    <img src="/img/screenshot-stats.png"
-                         alt="ClickyKeys Statistics window – aggregate counters since first launch"
-                         width="707" height="1151"
-                         loading="lazy" decoding="async"
-                         style="width: 100%; max-height: 700px; height: auto; object-fit: contain; display: block; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08);" />
-                    <span style="font-size: 12px; color: #888; display: block; margin-top: 6px;">Statistics – key &amp; click counters since first launch</span>
-                </div>
-            </div>
-        </section>
-
         <!-- FAQ -->
         <section id="faq" class="section">
             <h2 class="section-title">FAQ</h2>
@@ -646,6 +557,34 @@
     document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
+<!-- Nav dropdown behaviour -->
+<script>
+  (function () {
+    var dd = document.querySelector('[data-dropdown]');
+    if (!dd) return;
+    var toggle = dd.querySelector('.nav-dropdown-toggle');
+
+    function close() {
+      dd.setAttribute('data-open', 'false');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+    function open() {
+      dd.setAttribute('data-open', 'true');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      (dd.getAttribute('data-open') === 'true') ? close() : open();
+    });
+    document.addEventListener('click', function (e) {
+      if (!dd.contains(e.target)) close();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
+    });
+  })();
+</script>
 
 <script>
   (function() {

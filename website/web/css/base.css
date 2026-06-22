@@ -717,3 +717,247 @@ footer {
     display: flex;
     gap: 12px;
 }
+
+/* ============================================================
+   Nav dropdown ("Links" menu: GitHub + Microsoft Store)
+   ============================================================ */
+
+.nav-dropdown {
+    position: relative;
+    display: inline-flex;
+}
+
+.nav-dropdown > .nav-dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--muted);
+    background: none;
+    border: none;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.nav-dropdown > .nav-dropdown-toggle:hover,
+.nav-dropdown[data-open="true"] > .nav-dropdown-toggle {
+    color: var(--text);
+}
+
+.nav-dropdown-toggle .caret {
+    font-size: 10px;
+    transition: transform 0.15s ease;
+}
+
+.nav-dropdown[data-open="true"] .caret {
+    transform: rotate(180deg);
+}
+
+.nav-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 190px;
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+    padding: 6px;
+    background: var(--bg-alt, rgba(8,10,26,0.98));
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+    z-index: 200;
+}
+
+.nav-dropdown[data-open="true"] .nav-dropdown-menu {
+    display: flex;
+}
+
+.nav-dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    color: var(--muted);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.nav-dropdown-menu a:hover {
+    background: rgba(255,255,255,0.05);
+    color: var(--text);
+    text-decoration: none;
+}
+
+/* ============================================================
+   Subpages: page header + back link
+   ============================================================ */
+
+.page-head {
+    margin-top: 24px;
+    margin-bottom: 8px;
+}
+
+.page-head .hero-kicker {
+    margin-bottom: 8px;
+}
+
+.page-head h1 {
+    font-size: clamp(26px, 3.4vw, 34px);
+    font-weight: 800;
+    margin: 0 0 8px;
+}
+
+.page-head p {
+    font-size: 15px;
+    color: var(--muted);
+    margin: 0;
+    max-width: 720px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 18px;
+}
+
+/* ============================================================
+   Changelog (What's new) – rendered from the DB via the API
+   ============================================================ */
+
+.changelog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.changelog-entry {
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: linear-gradient(145deg, #070a1c, #050716);
+    padding: 14px 16px;
+}
+
+.changelog-entry-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.changelog-version {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.changelog-date {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.changelog-changes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.changelog-change {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 14px;
+}
+
+.changelog-change-body {
+    color: var(--text);
+}
+
+.changelog-change-detail {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* change-type badge */
+.change-badge {
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: rgba(5,7,22,0.9);
+    min-width: 58px;
+    text-align: center;
+}
+
+.change-badge.type-new      { color: #7CFC9B; border-color: rgba(124,252,155,0.4); }
+.change-badge.type-fix      { color: #40c9ff; border-color: rgba(64,201,255,0.4); }
+.change-badge.type-change   { color: #ffd66b; border-color: rgba(255,214,107,0.4); }
+.change-badge.type-breaking { color: #ff7676; border-color: rgba(255,118,118,0.45); }
+.change-badge.type-security { color: #ff6bcb; border-color: rgba(255,107,203,0.45); }
+.change-badge.type-info     { color: var(--muted); }
+
+.changelog-status {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    padding: 24px 0;
+}
+
+/* ============================================================
+   About author page
+   ============================================================ */
+
+.author-card {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.author-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-soft);
+    flex-shrink: 0;
+}
+
+.author-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.author-name {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.author-role {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.author-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+}

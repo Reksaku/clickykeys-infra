@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8" />
+    <title>Screenshots – ClickyKeys overlay themes &amp; settings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#050716" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f0f2f5" media="(prefers-color-scheme: light)" />
+    <meta name="description" content="See how ClickyKeys looks – customizable overlay themes, the animated rainbow mode, the settings panel and the local statistics window." />
+
+    <link rel="canonical" href="https://clickykeys.fun/screenshots" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Screenshots – ClickyKeys" />
+    <meta property="og:description" content="Customizable overlay themes, rainbow mode, settings and statistics." />
+    <meta property="og:image" content="https://clickykeys.fun/img/screenshot-blue.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://clickykeys.fun/screenshots" />
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/theme-light.css" data-theme>
+    <link rel="icon" type="image/png" href="/img/Icon.png">
+
+    <!-- Tracking -->
+    <script src="/js/track.js" defer></script>
+
+</head>
+
+<body>
+
+<a class="skip-nav" href="#main-content">Skip to main content</a>
+
+<div class="wrapper">
+    <header>
+        <div class="logo">
+            <div class="logo-icon">
+                <a href="/"><img src="/img/Icon.png" alt="ClickyKeys logo" width="40" height="40"></a>
+            </div>
+            <div>
+                <div class="logo-text-main">ClickyKeys</div>
+                <div class="logo-text-sub">
+                    Click counter for gamers and geeks
+                </div>
+            </div>
+        </div>
+
+        <nav aria-label="Main navigation">
+            <a href="/#downloads">Download</a>
+            <a href="/screenshots" aria-current="page">Screenshots</a>
+            <a href="/whats-new">What's new</a>
+            <a href="/about">Author</a>
+            <a href="/#faq">FAQ</a>
+
+            <!-- links dropdown -->
+            <div class="nav-dropdown" data-dropdown>
+                <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                    Links <span class="caret">▾</span>
+                </button>
+                <div class="nav-dropdown-menu" role="menu">
+                    <a href="https://github.com/Reksaku/ClickyKeys" target="_blank" rel="noopener"
+                       data-track-click data-track-label="Nav GitHub">★ GitHub</a>
+                    <a href="https://apps.microsoft.com/store/detail/9PJT83WPC06K?cid=DevShareMCLPCS" target="_blank" rel="noopener"
+                       data-track-click data-track-label="Nav Microsoft Store">⬇ Microsoft Store</a>
+                </div>
+            </div>
+
+            <!-- language switch -->
+            <div class="lang-switch">
+                <a class="lang-btn" href="/pl/screenshots"
+                   onclick="try{localStorage.setItem('ck_lang_preference','pl');}catch(e){}">PL</a>
+                <a class="lang-btn active" href="/screenshots"
+                   onclick="try{localStorage.setItem('ck_lang_preference','en');}catch(e){}">EN</a>
+            </div>
+
+            <!-- theme toggle -->
+            <div class="theme-switch">
+                <button class="theme-btn" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content">
+
+        <div class="page-head">
+            <div class="hero-kicker">Gallery</div>
+            <h1>How does it look?</h1>
+            <p>
+                Colors, fonts, grid layout – everything is yours to set. Below are a few
+                examples of what users create, the animated rainbow mode, plus the settings
+                and statistics windows.
+            </p>
+        </div>
+
+        <!-- Overlay themes -->
+        <section class="section">
+            <h2 class="section-title">Overlay themes</h2>
+            <p class="section-subtitle">
+                Three examples of custom panels – any colors, any font, any layout you want.
+            </p>
+
+            <div class="theme-grid">
+                <div class="screenshot-thumb">
+                    <img src="/img/screenshot-dark.png" alt="ClickyKeys dark theme – white and red text on dark background" loading="lazy" />
+                    <span>Dark</span>
+                </div>
+                <div class="screenshot-thumb">
+                    <img src="/img/screenshot-blue.png" alt="ClickyKeys blue theme – purple and teal text on light blue" loading="lazy" />
+                    <span>Blue</span>
+                </div>
+                <div class="screenshot-thumb">
+                    <img src="/img/screenshot-orange.png" alt="ClickyKeys orange theme – black text on orange panels" loading="lazy" />
+                    <span>Orange</span>
+                </div>
+            </div>
+            <p class="screenshot-caption">Fully customizable – any colors, any font, any layout you want.</p>
+
+            <center>
+                <div class="screenshots-label">Animated rainbow mode</div>
+                <figure class="screenshot large" style="margin: 0;">
+                    <img src="/img/Rainbow_animation.gif" alt="ClickyKeys with animated rainbow background enabled – OBS overlay" loading="lazy" />
+                </figure>
+            </center>
+        </section>
+
+        <!-- Settings & statistics -->
+        <section class="section">
+            <h2 class="section-title">Settings &amp; statistics</h2>
+            <p class="section-subtitle">
+                Tweak everything in the settings panel and track long-term usage in the local statistics window.
+            </p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div style="text-align: center;">
+                    <img src="/img/screenshot-settings.png"
+                         alt="ClickyKeys Settings panel – colors, fonts, grid layout and profiles"
+                         width="632" height="1308"
+                         loading="lazy" decoding="async"
+                         style="width: 100%; max-height: 700px; height: auto; object-fit: contain; display: block; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08);" />
+                    <span style="font-size: 12px; color: #888; display: block; margin-top: 6px;">Settings – colors, fonts &amp; profiles</span>
+                </div>
+                <div style="text-align: center;">
+                    <img src="/img/screenshot-stats.png"
+                         alt="ClickyKeys Statistics window – aggregate counters since first launch"
+                         width="707" height="1151"
+                         loading="lazy" decoding="async"
+                         style="width: 100%; max-height: 700px; height: auto; object-fit: contain; display: block; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08);" />
+                    <span style="font-size: 12px; color: #888; display: block; margin-top: 6px;">Statistics – key &amp; click counters since first launch</span>
+                </div>
+            </div>
+
+            <a class="back-link" href="/">← Back to home</a>
+        </section>
+
+    </main>
+
+    <footer>
+        <div>
+            © <span id="year"></span> ClickyKeys · hobby project
+        </div>
+        <div class="footer-links">
+            <a href="https://github.com/Reksaku/ClickyKeys" target="_blank" rel="noopener me">GitHub</a>
+            <a href="/#downloads">Download</a>
+        </div>
+    </footer>
+</div>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+<!-- Nav dropdown behaviour -->
+<script>
+  (function () {
+    var dd = document.querySelector('[data-dropdown]');
+    if (!dd) return;
+    var toggle = dd.querySelector('.nav-dropdown-toggle');
+
+    function close() {
+      dd.setAttribute('data-open', 'false');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+    function open() {
+      dd.setAttribute('data-open', 'true');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      (dd.getAttribute('data-open') === 'true') ? close() : open();
+    });
+    document.addEventListener('click', function (e) {
+      if (!dd.contains(e.target)) close();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
+    });
+  })();
+</script>
+
+<!-- Theme toggle (same logic as the homepage) -->
+<script>
+  (function() {
+    var STORAGE_KEY = 'ck_theme';
+    var sheet = document.querySelector('link[data-theme]');
+    var btn   = document.getElementById('theme-toggle');
+
+    function applyTheme(dark) {
+      sheet.href = dark ? '/css/theme-neon.css' : '/css/theme-light.css';
+      btn.textContent = dark ? '☀️' : '🌙';
+      btn.classList.toggle('active', dark);
+      try { localStorage.setItem(STORAGE_KEY, dark ? 'dark' : 'light'); } catch(e){}
+    }
+
+    var saved = null;
+    try { saved = localStorage.getItem(STORAGE_KEY); } catch(e){}
+
+    if (saved === 'dark') {
+      applyTheme(true);
+    } else if (saved === 'light') {
+      applyTheme(false);
+    } else {
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDark) applyTheme(true);
+    }
+
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        var manualChoice = null;
+        try { manualChoice = localStorage.getItem(STORAGE_KEY); } catch(err){}
+        if (!manualChoice) applyTheme(e.matches);
+      });
+    }
+
+    btn.addEventListener('click', function() {
+      applyTheme(sheet.href.indexOf('theme-neon') === -1);
+    });
+  })();
+</script>
+</body>
+</html>
