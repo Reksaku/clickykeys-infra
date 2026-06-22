@@ -90,14 +90,13 @@ nav a:hover {
 
 /* przełącznik języków + motywów – jasne pastylki */
 .lang-btn,
-.theme-btn {
+.theme-toggle {
     background: #eef2ff;
     color: var(--muted);
     border: 1px solid var(--border);
 }
 
-.lang-btn.active,
-.theme-btn.active {
+.lang-btn.active {
     border-color: var(--accent);
     color: var(--text);
 }

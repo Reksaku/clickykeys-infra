@@ -83,14 +83,19 @@
             <!-- language switch -->
             <div class="lang-switch">
                 <a class="lang-btn active" href="/pl/about"
-                   onclick="try{localStorage.setItem('ck_lang_preference','pl');}catch(e){}">PL</a>
+                   onclick="try{localStorage.setItem('ck_lang_preference','pl');}catch(e){}"><span class="flag flag-pl" aria-hidden="true"></span>PL</a>
                 <a class="lang-btn" href="/about"
-                   onclick="try{localStorage.setItem('ck_lang_preference','en');}catch(e){}">EN</a>
+                   onclick="try{localStorage.setItem('ck_lang_preference','en');}catch(e){}"><span class="flag flag-en" aria-hidden="true"></span>EN</a>
             </div>
 
             <!-- theme toggle -->
             <div class="theme-switch">
-                <button class="theme-btn" id="theme-toggle" aria-label="Przełącz tryb ciemny">🌙</button>
+                <button class="theme-toggle" id="theme-toggle" role="switch" aria-checked="false" aria-label="Przełącz tryb ciemny">
+                    <span class="theme-toggle-thumb">
+                        <span class="theme-ic theme-ic-sun">☀️</span>
+                        <span class="theme-ic theme-ic-moon">🌙</span>
+                    </span>
+                </button>
             </div>
         </nav>
     </header>
@@ -193,8 +198,7 @@
 
     function applyTheme(dark) {
       sheet.href = dark ? '/css/theme-neon.css' : '/css/theme-light.css';
-      btn.textContent = dark ? '☀️' : '🌙';
-      btn.classList.toggle('active', dark);
+      btn.setAttribute('aria-checked', dark ? 'true' : 'false');
       try { localStorage.setItem(STORAGE_KEY, dark ? 'dark' : 'light'); } catch(e){}
     }
 
