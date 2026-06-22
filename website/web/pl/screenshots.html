@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+
+    <meta charset="UTF-8" />
+    <title>Screeny – motywy overlayu i ustawienia ClickyKeys</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#050716" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f0f2f5" media="(prefers-color-scheme: light)" />
+    <meta name="description" content="Zobacz, jak wygląda ClickyKeys – konfigurowalne motywy overlayu, animowany tryb rainbow, panel ustawień i okno lokalnych statystyk." />
+
+    <link rel="canonical" href="https://clickykeys.fun/pl/screenshots" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Screeny – ClickyKeys" />
+    <meta property="og:description" content="Konfigurowalne motywy overlayu, tryb rainbow, ustawienia i statystyki." />
+    <meta property="og:image" content="https://clickykeys.fun/img/screenshot-blue.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://clickykeys.fun/pl/screenshots" />
+    <meta property="og:locale" content="pl_PL" />
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/theme-light.css" data-theme>
+    <link rel="icon" type="image/png" href="/img/Icon.png">
+
+    <!-- Tracking -->
+    <script src="/js/track.js" defer></script>
+
+</head>
+
+<body>
+
+<a class="skip-nav" href="#main-content">Przejdź do treści</a>
+
+<div class="wrapper">
+    <header>
+        <div class="logo">
+            <div class="logo-icon">
+                <a href="/pl/"><img src="/img/Icon.png" alt="Logo ClickyKeys" width="40" height="40"></a>
+            </div>
+            <div>
+                <div class="logo-text-main">ClickyKeys</div>
+                <div class="logo-text-sub">
+                    Key &amp; click counter dla graczy i geeków
+                </div>
+            </div>
+        </div>
+
+        <nav aria-label="Nawigacja główna">
+            <a href="/pl/#downloads">Pobierz</a>
+            <a href="/pl/screenshots" aria-current="page">Screeny</a>
+            <a href="/pl/whats-new">Co nowego</a>
+            <a href="/pl/about">Autor</a>
+            <a href="/pl/#faq">FAQ</a>
+
+            <!-- links dropdown -->
+            <div class="nav-dropdown" data-dropdown>
+                <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                    Linki <span class="caret">▾</span>
+                </button>
+                <div class="nav-dropdown-menu" role="menu">
+                    <a href="https://github.com/Reksaku/ClickyKeys" target="_blank" rel="noopener"
+                       data-track-click data-track-label="Nav GitHub">★ GitHub</a>
+                    <a href="https://apps.microsoft.com/store/detail/9PJT83WPC06K?cid=DevShareMCLPCS" target="_blank" rel="noopener"
+                       data-track-click data-track-label="Nav Microsoft Store">⬇ Sklep Microsoft</a>
+                </div>
+            </div>
+
+            <!-- language switch -->
+            <div class="lang-switch">
+                <a class="lang-btn active" href="/pl/screenshots"
+                   onclick="try{localStorage.setItem('ck_lang_preference','pl');}catch(e){}">PL</a>
+                <a class="lang-btn" href="/screenshots"
+                   onclick="try{localStorage.setItem('ck_lang_preference','en');}catch(e){}">EN</a>
+            </div>
+
+            <!-- theme toggle -->
+            <div class="theme-switch">
+                <button class="theme-btn" id="theme-toggle" aria-label="Przełącz tryb ciemny">🌙</button>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content">
+
+        <div class="page-head">
+            <div class="hero-kicker">Galeria</div>
+            <h1>Jak to wygląda?</h1>
+            <p>
+                Kolory, czcionki, układ siatki – wszystko ustawiasz sam. Poniżej kilka
+                przykładów tego, co tworzą użytkownicy, animowany tryb rainbow oraz okna
+                ustawień i statystyk.
+            </p>
+        </div>
+
+        <!-- Motywy overlayu -->
+        <section class="section">
+            <h2 class="section-title">Motywy overlayu</h2>
+            <p class="section-subtitle">
+                Trzy przykłady własnych paneli – dowolne kolory, czcionka i układ według Twoich preferencji.
+            </p>
+
+            <div class="theme-grid">
+                <div class="screenshot-thumb">
+                    <img src="/img/screenshot-dark.png" alt="ClickyKeys motyw ciemny – biały i czerwony tekst na ciemnym tle" loading="lazy" />
+                    <span>Dark</span>
+                </div>
+                <div class="screenshot-thumb">
+                    <img src="/img/screenshot-blue.png" alt="ClickyKeys motyw niebieski – fioletowy i turkusowy tekst" loading="lazy" />
+                    <span>Blue</span>
+                </div>
+                <div class="screenshot-thumb">
+                    <img src="/img/screenshot-orange.png" alt="ClickyKeys motyw pomarańczowy – czarny tekst na pomarańczowych panelach" loading="lazy" />
+                    <span>Orange</span>
+                </div>
+            </div>
+            <p class="screenshot-caption">W pełni konfigurowalny – dowolne kolory, czcionka i układ według Twoich preferencji.</p>
+
+            <center>
+                <div class="screenshots-label">Animowany tryb rainbow</div>
+                <figure class="screenshot large" style="margin: 0;">
+                    <img src="/img/Rainbow_animation.gif" alt="ClickyKeys z włączonym animowanym tłem rainbow – overlay OBS" loading="lazy" />
+                </figure>
+            </center>
+        </section>
+
+        <!-- Ustawienia i statystyki -->
+        <section class="section">
+            <h2 class="section-title">Ustawienia i statystyki</h2>
+            <p class="section-subtitle">
+                Dostosuj wszystko w panelu ustawień i śledź długoterminowe użycie w oknie lokalnych statystyk.
+            </p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div style="text-align: center;">
+                    <img src="/img/screenshot-settings.png"
+                         alt="Panel ustawień ClickyKeys – kolory, czcionki, układ siatki i profile"
+                         width="632" height="1308"
+                         loading="lazy" decoding="async"
+                         style="width: 100%; max-height: 700px; height: auto; object-fit: contain; display: block; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08);" />
+                    <span style="font-size: 12px; color: #888; display: block; margin-top: 6px;">Ustawienia – kolory, czcionki i profile</span>
+                </div>
+                <div style="text-align: center;">
+                    <img src="/img/screenshot-stats.png"
+                         alt="Okno statystyk ClickyKeys – łączne liczniki od pierwszego uruchomienia"
+                         width="707" height="1151"
+                         loading="lazy" decoding="async"
+                         style="width: 100%; max-height: 700px; height: auto; object-fit: contain; display: block; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08);" />
+                    <span style="font-size: 12px; color: #888; display: block; margin-top: 6px;">Statystyki – liczniki klawiszy i kliknięć od pierwszego uruchomienia</span>
+                </div>
+            </div>
+
+            <a class="back-link" href="/pl/">← Powrót na stronę główną</a>
+        </section>
+
+    </main>
+
+    <footer>
+        <div>
+            © <span id="year"></span> ClickyKeys · projekt hobbystyczny
+        </div>
+        <div class="footer-links">
+            <a href="https://github.com/Reksaku/ClickyKeys" target="_blank" rel="noopener me">GitHub</a>
+            <a href="/pl/#downloads">Pobierz</a>
+        </div>
+    </footer>
+</div>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+<!-- Nav dropdown behaviour -->
+<script>
+  (function () {
+    var dd = document.querySelector('[data-dropdown]');
+    if (!dd) return;
+    var toggle = dd.querySelector('.nav-dropdown-toggle');
+
+    function close() {
+      dd.setAttribute('data-open', 'false');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+    function open() {
+      dd.setAttribute('data-open', 'true');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      (dd.getAttribute('data-open') === 'true') ? close() : open();
+    });
+    document.addEventListener('click', function (e) {
+      if (!dd.contains(e.target)) close();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
+    });
+  })();
+</script>
+
+<!-- Theme toggle (taka sama logika jak na stronie głównej) -->
+<script>
+  (function() {
+    var STORAGE_KEY = 'ck_theme';
+    var sheet = document.querySelector('link[data-theme]');
+    var btn   = document.getElementById('theme-toggle');
+
+    function applyTheme(dark) {
+      sheet.href = dark ? '/css/theme-neon.css' : '/css/theme-light.css';
+      btn.textContent = dark ? '☀️' : '🌙';
+      btn.classList.toggle('active', dark);
+      try { localStorage.setItem(STORAGE_KEY, dark ? 'dark' : 'light'); } catch(e){}
+    }
+
+    var saved = null;
+    try { saved = localStorage.getItem(STORAGE_KEY); } catch(e){}
+
+    if (saved === 'dark') {
+      applyTheme(true);
+    } else if (saved === 'light') {
+      applyTheme(false);
+    } else {
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDark) applyTheme(true);
+    }
+
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        var manualChoice = null;
+        try { manualChoice = localStorage.getItem(STORAGE_KEY); } catch(err){}
+        if (!manualChoice) applyTheme(e.matches);
+      });
+    }
+
+    btn.addEventListener('click', function() {
+      applyTheme(sheet.href.indexOf('theme-neon') === -1);
+    });
+  })();
+</script>
+</body>
+</html>

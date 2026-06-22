@@ -15,7 +15,7 @@ window.lang_en = {
     "hero.badge3": "Rainbow theme + OBS friendly",
     "hero.primaryCta": "⬇ Download ClickyKeys",
     "hero.secondaryCta": "★ View on GitHub",
-    "hero.note": "Open source (<strong>GPL-3.0</strong>).",
+    "hero.note": "Source-available (<strong>Elastic License v2</strong>).",
 
     "features.title": "What can ClickyKeys do?",
     "features.subtitle": "A small hobby project that turned out surprisingly useful.",
@@ -57,9 +57,9 @@ window.lang_en = {
     "features.card5.title": "One-key reset",
     "features.card5.body": "Tired of your stats? Hit <strong>F12</strong> to reset all counters and start a fresh session.",
 
-    "features.card6.kicker": "Open source",
-    "features.card6.title": "GPL-3.0 & C#",
-    "features.card6.body": "Written in C# under the GPL-3.0 license – you can inspect the code, learn from it or extend it.",
+    "features.card6.kicker": "Source-available",
+    "features.card6.title": "Elastic License v2 & C#",
+    "features.card6.body": "Written in C# under the Elastic License v2 – you can inspect the code, learn from it or extend it.",
 
     "downloads.title": "Download ClickyKeys",
     "downloads.subtitle": "You can always find the latest releases on GitHub. You can also host the file on your own server and link it directly from here.",
@@ -73,7 +73,7 @@ window.lang_en = {
 
     "downloads.source.header": "Source code",
     "downloads.source.tag": "For devs",
-    "downloads.source.body": "Want to read the code, build your own version or add features? The repository is fully open.",
+    "downloads.source.body": "Want to read the code, build your own version or add features? The repository is source-available.",
     "downloads.source.linkMain": "Git clone",
     "downloads.source.linkSub": "VS / Rider / etc.",
 
@@ -94,7 +94,7 @@ window.lang_en = {
     "faq.subtitle": "Common questions your users might ask.",
 
     "faq.q1.q": "Does ClickyKeys store or send my data?",
-    "faq.q1.a": "No. The app only counts your key presses and clicks locally and shows them in the panel. The code is open – you can verify it yourself in the repository.",
+    "faq.q1.a": "No. The app only counts your key presses and clicks locally and shows them in the panel. The source code is available – you can verify it yourself in the repository.",
 
     "faq.q2.q": "Which systems are supported?",
     "faq.q2.a": "Right now the project is focused on Windows (desktop app). If you want to help with ports to other systems – reach out via GitHub.",

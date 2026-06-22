@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+
+    <meta charset="UTF-8" />
+    <title>Co nowego w ClickyKeys – Lista zmian i informacje o wydaniach</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#050716" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f0f2f5" media="(prefers-color-scheme: light)" />
+    <meta name="description" content="Pełna lista zmian ClickyKeys. Zobacz każdą nową funkcję, poprawkę i zmianę w kolejnych wersjach — aktualizowana automatycznie z każdym wydaniem." />
+
+    <link rel="canonical" href="https://clickykeys.fun/pl/whats-new" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Co nowego w ClickyKeys – Lista zmian" />
+    <meta property="og:description" content="Każde wydanie, funkcja i poprawka ClickyKeys w jednym miejscu." />
+    <meta property="og:image" content="https://clickykeys.fun/img/screenshot-blue.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://clickykeys.fun/pl/whats-new" />
+    <meta property="og:locale" content="pl_PL" />
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/theme-light.css" data-theme>
+    <link rel="icon" type="image/png" href="/img/Icon.png">
+
+    <!-- Tracking -->
+    <script src="/js/track.js" defer></script>
+
+</head>
+
+<body>
+
+<a class="skip-nav" href="#main-content">Przejdź do treści</a>
+
+<div class="wrapper">
+    <header>
+        <div class="logo">
+            <div class="logo-icon">
+                <a href="/pl/"><img src="/img/Icon.png" alt="Logo ClickyKeys" width="40" height="40"></a>
+            </div>
+            <div>
+                <div class="logo-text-main">ClickyKeys</div>
+                <div class="logo-text-sub">
+                    Key &amp; click counter dla graczy i geeków
+                </div>
+            </div>
+        </div>
+
+        <nav aria-label="Nawigacja główna">
+            <a href="/pl/#downloads">Pobierz</a>
+            <a href="/pl/screenshots">Screeny</a>
+            <a href="/pl/whats-new" aria-current="page">Co nowego</a>
+            <a href="/pl/about">Autor</a>
+            <a href="/pl/#faq">FAQ</a>
+
+            <!-- links dropdown -->
+            <div class="nav-dropdown" data-dropdown>
+                <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                    Linki <span class="caret">▾</span>
+                </button>
+                <div class="nav-dropdown-menu" role="menu">
+                    <a href="https://github.com/Reksaku/ClickyKeys" target="_blank" rel="noopener"
+                       data-track-click data-track-label="Nav GitHub">★ GitHub</a>
+                    <a href="https://apps.microsoft.com/store/detail/9PJT83WPC06K?cid=DevShareMCLPCS" target="_blank" rel="noopener"
+                       data-track-click data-track-label="Nav Microsoft Store">⬇ Sklep Microsoft</a>
+                </div>
+            </div>
+
+            <!-- language switch -->
+            <div class="lang-switch">
+                <a class="lang-btn active" href="/pl/whats-new"
+                   onclick="try{localStorage.setItem('ck_lang_preference','pl');}catch(e){}">PL</a>
+                <a class="lang-btn" href="/whats-new"
+                   onclick="try{localStorage.setItem('ck_lang_preference','en');}catch(e){}">EN</a>
+            </div>
+
+            <!-- theme toggle -->
+            <div class="theme-switch">
+                <button class="theme-btn" id="theme-toggle" aria-label="Przełącz tryb ciemny">🌙</button>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content">
+
+        <div class="page-head">
+            <div class="hero-kicker">Lista zmian</div>
+            <h1>Co nowego w ClickyKeys</h1>
+            <p>
+                Każde wydanie, funkcja i poprawka w jednym miejscu. Ta lista jest generowana
+                automatycznie z bazy danych wydań ClickyKeys, więc zawsze odzwierciedla
+                najnowszą wersję.
+            </p>
+        </div>
+
+        <section class="section">
+            <div id="changelog-list" class="changelog-list" aria-live="polite">
+                <div class="changelog-status" id="changelog-status">Wczytywanie informacji o wydaniach…</div>
+            </div>
+
+            <a class="back-link" href="/pl/">← Powrót na stronę główną</a>
+        </section>
+
+    </main>
+
+    <footer>
+        <div>
+            © <span id="year"></span> ClickyKeys · projekt hobbystyczny
+        </div>
+        <div class="footer-links">
+            <a href="https://github.com/Reksaku/ClickyKeys" target="_blank" rel="noopener me">GitHub</a>
+            <a href="/pl/#downloads">Pobierz</a>
+        </div>
+    </footer>
+</div>
+
+<!-- Changelog loader: pobiera wpisy z API opartego o bazę danych -->
+<script>
+  (function () {
+    var TYPE_LABELS = {
+      'new': 'Nowość', 'fix': 'Poprawka', 'change': 'Zmiana',
+      'breaking': 'Przełomowe', 'security': 'Bezpieczeństwo', 'info': 'Info'
+    };
+
+    var listEl   = document.getElementById('changelog-list');
+    var statusEl = document.getElementById('changelog-status');
+
+    function setStatus(msg) {
+      listEl.innerHTML = '<div class="changelog-status">' + msg + '</div>';
+    }
+
+    function fmtDate(d) {
+      if (!d) return '';
+      var dt = new Date(d);
+      if (isNaN(dt.getTime())) return d;
+      return dt.toLocaleDateString('pl-PL', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function render(entries) {
+      if (!entries || !entries.length) {
+        setStatus('Brak dostępnych informacji o wydaniach.');
+        return;
+      }
+
+      var html = '';
+      entries.forEach(function (entry) {
+        html += '<article class="changelog-entry">';
+        html += '<div class="changelog-entry-head">';
+        html += '<span class="changelog-version">v' + escapeHtml(entry.version) + '</span>';
+        if (entry.release_date) {
+          html += '<span class="changelog-date">' + escapeHtml(fmtDate(entry.release_date)) + '</span>';
+        }
+        html += '</div>';
+
+        html += '<div class="changelog-changes">';
+        (entry.changes || []).forEach(function (c) {
+          var type = (c.type || 'info').toLowerCase();
+          var label = TYPE_LABELS[type] || type;
+          html += '<div class="changelog-change">';
+          html += '<span class="change-badge type-' + escapeHtml(type) + '">' + escapeHtml(label) + '</span>';
+          html += '<span class="changelog-change-body">' + escapeHtml(c.summary);
+          if (c.detail) {
+            html += '<span class="changelog-change-detail">' + escapeHtml(c.detail) + '</span>';
+          }
+          html += '</span></div>';
+        });
+        html += '</div>';
+        html += '</article>';
+      });
+
+      listEl.innerHTML = html;
+    }
+
+    // Pobierz pełną historię (bez ?since= → zwraca wszystko, co opublikowane)
+    fetch('/api/changelog.php', { headers: { 'Accept': 'application/json' } })
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        render(data && data.entries);
+      })
+      .catch(function () {
+        setStatus('Nie udało się teraz wczytać informacji o wydaniach. Spróbuj ponownie później ' +
+                  'lub sprawdź <a href="https://github.com/Reksaku/ClickyKeys/releases" target="_blank" rel="noopener">wydania na GitHubie</a>.');
+      });
+  })();
+</script>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+<!-- Nav dropdown behaviour -->
+<script>
+  (function () {
+    var dd = document.querySelector('[data-dropdown]');
+    if (!dd) return;
+    var toggle = dd.querySelector('.nav-dropdown-toggle');
+
+    function close() {
+      dd.setAttribute('data-open', 'false');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+    function open() {
+      dd.setAttribute('data-open', 'true');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+
+    toggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      (dd.getAttribute('data-open') === 'true') ? close() : open();
+    });
+    document.addEventListener('click', function (e) {
+      if (!dd.contains(e.target)) close();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
+    });
+  })();
+</script>
+
+<!-- Theme toggle (taka sama logika jak na stronie głównej) -->
+<script>
+  (function() {
+    var STORAGE_KEY = 'ck_theme';
+    var sheet = document.querySelector('link[data-theme]');
+    var btn   = document.getElementById('theme-toggle');
+
+    function applyTheme(dark) {
+      sheet.href = dark ? '/css/theme-neon.css' : '/css/theme-light.css';
+      btn.textContent = dark ? '☀️' : '🌙';
+      btn.classList.toggle('active', dark);
+      try { localStorage.setItem(STORAGE_KEY, dark ? 'dark' : 'light'); } catch(e){}
+    }
+
+    var saved = null;
+    try { saved = localStorage.getItem(STORAGE_KEY); } catch(e){}
+
+    if (saved === 'dark') {
+      applyTheme(true);
+    } else if (saved === 'light') {
+      applyTheme(false);
+    } else {
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDark) applyTheme(true);
+    }
+
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        var manualChoice = null;
+        try { manualChoice = localStorage.getItem(STORAGE_KEY); } catch(err){}
+        if (!manualChoice) applyTheme(e.matches);
+      });
+    }
+
+    btn.addEventListener('click', function() {
+      applyTheme(sheet.href.indexOf('theme-neon') === -1);
+    });
+  })();
+</script>
+</body>
+</html>

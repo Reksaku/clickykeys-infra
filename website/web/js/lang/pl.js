@@ -15,7 +15,7 @@ window.lang_pl = {
     "hero.badge3": "Rainbow theme + OBS friendly",
     "hero.primaryCta": "⬇ Pobierz ClickyKeys",
     "hero.secondaryCta": "★ Zobacz na GitHub",
-    "hero.note": "Otwarty kod (<strong>GPL-3.0</strong>).",
+    "hero.note": "Dostępny kod źródłowy (<strong>Elastic License v2</strong>).",
 
     "features.title": "Co potrafi ClickyKeys?",
     "features.subtitle": "Mały projekt hobbystyczny, który szybko okazał się zaskakująco użyteczny.",
@@ -57,9 +57,9 @@ window.lang_pl = {
     "features.card5.title": "Reset jednym klawiszem",
     "features.card5.body": "Znudziły Ci się statystyki? Wciśnij <strong>F12</strong> i wyzeruj liczniki, zaczynając świeżą sesję.",
 
-    "features.card6.kicker": "Open source",
-    "features.card6.title": "GPL-3.0 & C#",
-    "features.card6.body": "Aplikacja napisana w C#, licencja GPL-3.0 – możesz przejrzeć kod, uczyć się na nim albo dołożyć własne usprawnienia.",
+    "features.card6.kicker": "Source-available",
+    "features.card6.title": "Elastic License v2 & C#",
+    "features.card6.body": "Aplikacja napisana w C#, licencja Elastic License v2 – możesz przejrzeć kod, uczyć się na nim albo dołożyć własne usprawnienia.",
 
     "downloads.title": "Pobierz ClickyKeys",
     "downloads.subtitle": "Najnowsze wydania znajdziesz zawsze na GitHubie. Możesz też hostować plik na swoim serwerze i linkować bezpośrednio stąd.",
@@ -73,7 +73,7 @@ window.lang_pl = {
 
     "downloads.source.header": "Kod źródłowy",
     "downloads.source.tag": "Dla devów",
-    "downloads.source.body": "Chcesz przejrzeć kod, zbudować własną wersję lub dołożyć funkcję? Repozytorium jest w pełni otwarte.",
+    "downloads.source.body": "Chcesz przejrzeć kod, zbudować własną wersję lub dołożyć funkcję? Repozytorium ma publicznie dostępny kod źródłowy.",
     "downloads.source.linkMain": "Git clone",
     "downloads.source.linkSub": "VS / Rider / etc.",
 
@@ -94,7 +94,7 @@ window.lang_pl = {
     "faq.subtitle": "Najczęstsze pytania, które mogą się pojawić u użytkowników.",
 
     "faq.q1.q": "Czy ClickyKeys zapisuje moje dane lub wysyła je gdzieś?",
-    "faq.q1.a": "Nie. Aplikacja po prostu zlicza lokalnie Twoje kliknięcia i klawisze oraz wyświetla je w panelu. Kod jest otwarty – możesz sam to sprawdzić w repozytorium.",
+    "faq.q1.a": "Nie. Aplikacja po prostu zlicza lokalnie Twoje kliknięcia i klawisze oraz wyświetla je w panelu. Kod źródłowy jest dostępny – możesz sam to sprawdzić w repozytorium.",
 
     "faq.q2.q": "Na jakich systemach to działa?",
     "faq.q2.a": "Obecnie projekt jest tworzony z myślą o Windows (aplikacja desktopowa). Jeżeli chcesz pomóc z portem na inne systemy – odezwij się przez GitHub.",

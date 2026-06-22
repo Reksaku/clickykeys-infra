@@ -28,23 +28,62 @@
 
 <url>
   <loc>https://clickykeys.fun/screenshots</loc>
+  <xhtml:link rel="alternate" hreflang="en" href="https://clickykeys.fun/screenshots" />
+  <xhtml:link rel="alternate" hreflang="pl" href="https://clickykeys.fun/pl/screenshots" />
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://clickykeys.fun/screenshots" />
   <lastmod>2026-06-22T00:00:00+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
 </url>
 
 <url>
+  <loc>https://clickykeys.fun/pl/screenshots</loc>
+  <xhtml:link rel="alternate" hreflang="pl" href="https://clickykeys.fun/pl/screenshots" />
+  <xhtml:link rel="alternate" hreflang="en" href="https://clickykeys.fun/screenshots" />
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://clickykeys.fun/screenshots" />
+  <lastmod>2026-06-22T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.6</priority>
+</url>
+
+<url>
   <loc>https://clickykeys.fun/whats-new</loc>
+  <xhtml:link rel="alternate" hreflang="en" href="https://clickykeys.fun/whats-new" />
+  <xhtml:link rel="alternate" hreflang="pl" href="https://clickykeys.fun/pl/whats-new" />
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://clickykeys.fun/whats-new" />
   <lastmod>2026-06-22T00:00:00+00:00</lastmod>
   <changefreq>weekly</changefreq>
   <priority>0.8</priority>
 </url>
 
 <url>
+  <loc>https://clickykeys.fun/pl/whats-new</loc>
+  <xhtml:link rel="alternate" hreflang="pl" href="https://clickykeys.fun/pl/whats-new" />
+  <xhtml:link rel="alternate" hreflang="en" href="https://clickykeys.fun/whats-new" />
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://clickykeys.fun/whats-new" />
+  <lastmod>2026-06-22T00:00:00+00:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<url>
   <loc>https://clickykeys.fun/about</loc>
+  <xhtml:link rel="alternate" hreflang="en" href="https://clickykeys.fun/about" />
+  <xhtml:link rel="alternate" hreflang="pl" href="https://clickykeys.fun/pl/about" />
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://clickykeys.fun/about" />
   <lastmod>2026-06-22T00:00:00+00:00</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.6</priority>
+</url>
+
+<url>
+  <loc>https://clickykeys.fun/pl/about</loc>
+  <xhtml:link rel="alternate" hreflang="pl" href="https://clickykeys.fun/pl/about" />
+  <xhtml:link rel="alternate" hreflang="en" href="https://clickykeys.fun/about" />
+  <xhtml:link rel="alternate" hreflang="x-default" href="https://clickykeys.fun/about" />
+  <lastmod>2026-06-22T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.5</priority>
 </url>
 
 </urlset>
