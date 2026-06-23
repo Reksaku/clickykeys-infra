@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -61,7 +61,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Lowercase owner name
         id: owner
@@ -136,16 +136,17 @@ jobs:
           host: ${{ secrets.PROD_HOST }}
           username: ubuntu
           key: ${{ secrets.PROD_SSH_KEY }}
-          envs: SHA_TAG,OWNER
+          envs: SHA_TAG,OWNER,REGISTRY,NAMESPACE
           script: |
             set -euo pipefail
-
-            REGISTRY="ghcr.io"
-            NAMESPACE="staging"
 
             echo "==> Deploying tag ${SHA_TAG} to namespace ${NAMESPACE}"
 
             export KUBECONFIG=/home/ubuntu/.kube/config
+
+            # Turn on staging deployment - increse replicas to 1 if they are 0. This is a no-op if the deployments are already running.
+            kubectl scale deployment/nginx-web --replicas=1 -n ${NAMESPACE}
+            kubectl scale deployment/php-fpm --replicas=1 -n ${NAMESPACE}
 
             # Update images on both deployments. Kubernetes automatically
             # creates a new ReplicaSet, preserving the prior one for rollback.
@@ -167,6 +168,8 @@ jobs:
         env:
           SHA_TAG: ${{ needs.images_build.outputs.sha_tag }}
           OWNER:   ${{ needs.images_build.outputs.owner }}
+          REGISTRY: ${{ env.REGISTRY }}
+          NAMESPACE: staging
 
       - name: Job summary
         run: |
@@ -186,7 +189,7 @@ jobs:
 
     steps:
       - name: Checkout (for smoke script)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Wait for traffic to settle
         run: sleep 10
@@ -236,11 +239,9 @@ jobs:
           host: ${{ secrets.PROD_HOST }}
           username: ubuntu
           key: ${{ secrets.PROD_SSH_KEY }}
-          envs: SHA_TAG,OWNER,PROD_NAMESPACE,COMMIT_SHA,RUN_URL
+          envs: SHA_TAG,OWNER,PROD_NAMESPACE,COMMIT_SHA,RUN_URL,REGISTRY
           script: |
             set -euo pipefail
-
-            REGISTRY="ghcr.io"
 
             echo "== Deploying tag ${SHA_TAG} to namespace ${PROD_NAMESPACE}"
 
@@ -276,6 +277,7 @@ jobs:
           PROD_NAMESPACE: ${{ secrets.PROD_NAMESPACE }}
           COMMIT_SHA: ${{ github.sha }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          REGISTRY: ${{ env.REGISTRY }}
       
       - name: Job summary
         run: |
@@ -295,7 +297,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout (for smoke script)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Wait for traffic to settle
         run: sleep 10
@@ -356,3 +358,34 @@ jobs:
             echo "Deploy tag: \`${{ needs.images_build.outputs.sha_tag }}\`"
             echo ""
           } >> "$GITHUB_STEP_SUMMARY"
+
+  turn-off-staging:
+    name: Reduce replica count for staging deployment
+    needs: smoke-test-production
+    if: ${{ !cancelled() }}
+    concurrency:
+      group: deploy-staging
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Turn off staging deployment
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ubuntu
+          key: ${{ secrets.PROD_SSH_KEY }}
+          envs: NAMESPACE
+          script: |
+            set -euo pipefail
+
+            echo "==> Reducing replica count for staging deployment"
+
+            export KUBECONFIG=/home/ubuntu/.kube/config
+
+            kubectl scale deployment/nginx-web --replicas=0 -n ${NAMESPACE}
+            kubectl scale deployment/php-fpm --replicas=0 -n ${NAMESPACE}
+
+            echo "==> Staging deployment scaled down to 0 replicas"
+        env:
+          NAMESPACE: staging
