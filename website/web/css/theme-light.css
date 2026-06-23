@@ -2,14 +2,14 @@
 
 /* Palette & tokens */
 :root {
-    --bg: #f5f5fb;
-    --bg-alt: #ffffff;
+    --bg: #e8eaf2;
+    --bg-alt: #f4f6fb;
     --accent: #3b82f6;
     --accent-soft: rgba(59, 130, 246, 0.16);
     --accent-2: #0f766e;
     --text: #0f172a;
-    --muted: #6b7280;
-    --border: #e2e8f0;
+    --muted: #5f6675;
+    --border: #d6dbe7;
 
     --radius-lg: 18px;
     --radius-md: 12px;
@@ -20,7 +20,9 @@
 
 /* Tło strony */
 body {
-    background: radial-gradient(circle at top, #e0f2fe 0, #f5f5fb 55%);
+    background: radial-gradient(ellipse 120% 460px at top, #bcdcfb 0, #e3ecf7 100%);
+    background-repeat: no-repeat;
+    background-color: #e3ecf7;
     color: var(--text);
 }
 
@@ -34,16 +36,16 @@ body {
 
 /* główne sekcje */
 .section {
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    background: rgba(244, 246, 251, 0.96);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
 }
 
 /* kartki w sekcjach */
 .feature-card,
 .download-card {
-    background: #ffffff;
+    background: #eef1f8;
     border: 1px solid var(--border);
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
 }
 
 /* hero – trochę więcej „powietrza” na jasnym */
@@ -91,7 +93,7 @@ nav a:hover {
 /* przełącznik języków + motywów – jasne pastylki */
 .lang-btn,
 .theme-toggle {
-    background: #eef2ff;
+    background: #f6f8fc;
     color: var(--muted);
     border: 1px solid var(--border);
 }
@@ -114,7 +116,7 @@ nav a:hover {
 }
 
 .hero-badge {
-    background: #eef2ff;
+    background: #f6f8fc;
     border: 1px solid var(--border);
     color: var(--muted);
 }
@@ -151,7 +153,7 @@ nav a:hover {
 /* małe tagi */
 .hero-card-tag,
 .download-tag {
-    background: #eef2ff;
+    background: #f6f8fc;
     border-color: var(--border);
     color: var(--accent-2);
 }
@@ -173,7 +175,7 @@ nav a:hover {
 }
 
 .btn-ghost {
-    background: #eef2ff;
+    background: #f6f8fc;
     color: var(--text);
     border-color: var(--border);
 }
@@ -184,7 +186,7 @@ nav a:hover {
 
 /* linki pobierania */
 .download-link {
-    background: #eef2ff;
+    background: #f6f8fc;
     border: 1px solid var(--border);
     color: var(--muted);
 }
@@ -227,3 +229,42 @@ footer {
     border-top: 1px solid var(--border);
     color: var(--muted);
 }
+
+/* ==========
+   Changelog (What's new) – jasne karty zmian
+   ========== */
+
+.changelog-entry {
+    background: #eef1f8;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+}
+
+.changelog-version {
+    color: var(--text);
+}
+
+.changelog-date {
+    color: var(--muted);
+}
+
+.changelog-change-body {
+    color: var(--text);
+}
+
+.changelog-change-detail {
+    color: var(--muted);
+}
+
+.change-badge {
+    background: #f6f8fc;
+    border-color: var(--border);
+    color: var(--muted);
+}
+
+.change-badge.type-new      { color: #16a34a; border-color: rgba(22,163,74,0.40); }
+.change-badge.type-fix      { color: #0284c7; border-color: rgba(2,132,199,0.40); }
+.change-badge.type-change   { color: #b45309; border-color: rgba(180,83,9,0.40); }
+.change-badge.type-breaking { color: #dc2626; border-color: rgba(220,38,38,0.45); }
+.change-badge.type-security { color: #db2777; border-color: rgba(219,39,119,0.45); }
+.change-badge.type-info     { color: var(--muted); }
