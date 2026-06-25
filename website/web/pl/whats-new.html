@@ -11,6 +11,11 @@
 
     <link rel="canonical" href="https://clickykeys.fun/pl/whats-new" />
 
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="pl" href="https://clickykeys.fun/pl/whats-new" />
+    <link rel="alternate" hreflang="en" href="https://clickykeys.fun/whats-new" />
+    <link rel="alternate" hreflang="x-default" href="https://clickykeys.fun/whats-new" />
+
     <!-- Open Graph -->
     <meta property="og:title" content="Co nowego w ClickyKeys – Lista zmian" />
     <meta property="og:description" content="Każde wydanie, funkcja i poprawka ClickyKeys w jednym miejscu." />
@@ -18,6 +23,12 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://clickykeys.fun/pl/whats-new" />
     <meta property="og:locale" content="pl_PL" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Co nowego w ClickyKeys – Lista zmian" />
+    <meta name="twitter:description" content="Każde wydanie, funkcja i poprawka ClickyKeys w jednym miejscu." />
+    <meta name="twitter:image" content="https://clickykeys.fun/img/screenshot-blue.png" />
 
     <!-- External CSS -->
     <link rel="stylesheet" href="/css/base.css">
@@ -102,6 +113,14 @@
             <div id="changelog-list" class="changelog-list" aria-live="polite">
                 <div class="changelog-status" id="changelog-status">Wczytywanie informacji o wydaniach…</div>
             </div>
+
+            <noscript>
+                <div class="changelog-status">
+                    Pełna lista zmian ładuje się dynamicznie i wymaga JavaScriptu.
+                    Wszystkie wydania, funkcje i poprawki ClickyKeys znajdziesz na
+                    <a href="https://github.com/Reksaku/ClickyKeys/releases" target="_blank" rel="noopener">stronie wydań na GitHubie</a>.
+                </div>
+            </noscript>
 
             <a class="back-link" href="/pl/">← Powrót na stronę główną</a>
         </section>
