@@ -1,0 +1,72 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    
+    # PR limit
+    open-pull-requests-limit: 5
+    
+    # PR grouping
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    
+    # PR labels
+    labels:
+      - "dependencies"
+      - "github-actions"
+    
+    # Commit message and PR title
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+
+  # Docker base images (FROM ...) in both build contexts
+  - package-ecosystem: "docker"
+    directories:
+      - "/website"
+      - "/php-fpm"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+
+    open-pull-requests-limit: 5
+
+    groups:
+      docker:
+        patterns:
+          - "*"
+
+    labels:
+      - "dependencies"
+      - "docker"
+
+    commit-message:
+      prefix: "build"
+      include: "scope"
+
+  # Composer (PHP) dependencies
+  - package-ecosystem: "composer"
+    directory: "/php-fpm"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+
+    open-pull-requests-limit: 5
+
+    groups:
+      composer:
+        patterns:
+          - "*"
+
+    labels:
+      - "dependencies"
+      - "composer"
+
+    commit-message:
+      prefix: "composer"
+      include: "scope"
