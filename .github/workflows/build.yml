@@ -96,6 +96,20 @@ jobs:
           cache-from: type=gha,scope=web
           cache-to: type=gha,scope=web,mode=max
 
+      # DB-IP IP-to-Country Lite (MMDB) refreshed monthly
+      - name: Fetch GeoIP database
+        run: |
+          set -euo pipefail
+          DEST=php-fpm/geoip/dbip-country-lite.mmdb
+          for M in "$(date +%Y-%m)" "$(date -d 'last month' +%Y-%m)"; do
+            URL="https://download.db-ip.com/free/dbip-country-lite-${M}.mmdb.gz"
+            echo "==> Trying ${URL}"
+            if curl -fsSL "$URL" | gunzip > "$DEST"; then
+              echo "==> GeoIP DB saved for ${M}"; break
+            fi
+          done
+          test -s "$DEST" || { echo "Failed to download GeoIP DB"; exit 1; }
+
       - name: Build & push php image
         uses: docker/build-push-action@v7
         with:

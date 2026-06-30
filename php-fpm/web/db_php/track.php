@@ -35,6 +35,30 @@ if (!is_array($data)) {
 
 $ip = $_SERVER['HTTP_X_REAL_IP'] ?? null;
 
+// Geolocation: resolve country from the FULL ip, in-memory, BEFORE anonymizing.
+// The full ip is never stored; only the 2-letter country code is kept.
+function lookup_country($ip) {
+    if (!$ip) return null;
+    if (!filter_var($ip, FILTER_VALIDATE_IP)) return null;
+
+    $dbPath = getenv('GEOIP_DB_PATH') ?: '/var/www/geoip/dbip-country-lite.mmdb';
+    if (!is_readable($dbPath) || !class_exists('MaxMind\\Db\\Reader')) {
+        return null; // graceful: tracking must never fail because of geo
+    }
+
+    try {
+        $reader  = new MaxMind\Db\Reader($dbPath);
+        $record  = $reader->get($ip);
+        $reader->close();
+        $code = $record['country']['iso_code'] ?? null;
+        return (is_string($code) && strlen($code) === 2) ? strtoupper($code) : null;
+    } catch (\Throwable $e) {
+        return null;
+    }
+}
+
+$country = lookup_country($ip);
+
 function anonymize_ip($ip) {
     if (!$ip) return null;
 
@@ -105,6 +129,7 @@ $sql = "
         path,
         referrer,
         anon_ip,
+        country,
         device_type,
         browser,
         os,
@@ -119,6 +144,7 @@ $sql = "
         :path,
         :referrer,
         :anon_ip,
+        :country,
         :device_type,
         :browser,
         :os,
@@ -135,6 +161,7 @@ $stmt->execute([
     ':path'            => $path,
     ':referrer'        => $referrer,
     ':anon_ip'         => $anonIp,
+    ':country'         => $country,
     ':device_type'     => $deviceType,
     ':browser'         => $browser,
     ':os'              => $os,

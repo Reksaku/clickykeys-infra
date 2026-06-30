@@ -1,0 +1,2 @@
+# GeoIP databases are refreshed monthly and downloaded at build time, not committed.
+*.mmdb

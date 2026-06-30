@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS page_views (
     path VARCHAR(255) NOT NULL,
     referrer VARCHAR(512) DEFAULT NULL,
     anon_ip VARCHAR(32) DEFAULT NULL,
+    country CHAR(2) DEFAULT NULL,
     device_type ENUM('desktop', 'mobile', 'tablet', 'other') DEFAULT 'other',
     browser VARCHAR(50) DEFAULT NULL,
     os VARCHAR(50) DEFAULT NULL,
@@ -23,7 +24,8 @@ CREATE TABLE IF NOT EXISTS page_views (
     INDEX idx_session_id (session_id),
     INDEX idx_visited_at (visited_at),
     INDEX idx_path (path),
-    INDEX idx_anon_ip (anon_ip)
+    INDEX idx_anon_ip (anon_ip),
+    INDEX idx_country (country)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS click_events (
