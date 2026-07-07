@@ -82,7 +82,7 @@ function telemetry_validate_feature(mixed $feature): ?array
 
     $int = static fn($v, $min, $max, $default = 0) =>
         is_numeric($v) ? max($min, min($max, (int) $v)) : $default;
-    $bool = static fn($v) => (bool) ($v ?? false);
+    $bool = static fn($v) => (int) (bool) ($v ?? false);
 
     return [
         'grid_rows'                  => $int($feature['grid_rows'] ?? null, 1, 20),
@@ -173,7 +173,10 @@ try {
         "mysql:host=$host;dbname=$db;charset=utf8mb4",
         $user,
         $pass,
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+        [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_EMULATE_PREPARES   => false,
+        ]
     );
 } catch (PDOException $e) {
     http_response_code(500);

@@ -90,6 +90,35 @@ final class TelemetryTest extends TestCase
         $this->assertNull(telemetry_validate_feature(null));
     }
 
+    public function testFeatureBooleansAreIntsNotPhpBooleans(): void
+    {
+        // Regression: PHP bool `false` bound under PDO emulated prepares is
+        // stringified to '', which MySQL strict mode rejects for the TINYINT
+        // columns -> every level=full insert 500'd. Bool fields must therefore
+        // be integer 0/1, never PHP true/false.
+        $feature = telemetry_validate_feature([
+            'colors_customized'          => true,
+            'rainbow_background_enabled' => false,
+            'autostart_enabled'          => false,
+            'start_minimized'            => false,
+            'tutorial_completed'         => true,
+        ]);
+
+        $this->assertNotNull($feature);
+        foreach ([
+            'colors_customized', 'fonts_customized', 'rainbow_background_enabled',
+            'autostart_enabled', 'start_minimized', 'shortcuts_customized',
+            'tutorial_completed',
+        ] as $field) {
+            $this->assertIsInt($feature[$field], "$field must be int, not bool");
+            $this->assertContains($feature[$field], [0, 1], "$field must be 0 or 1");
+        }
+
+        $this->assertSame(1, $feature['colors_customized']);
+        $this->assertSame(0, $feature['rainbow_background_enabled']);
+        $this->assertSame(0, $feature['autostart_enabled']);
+    }
+
     private function basicPayload(array $overrides = []): array
     {
         return $overrides + [
