@@ -87,3 +87,49 @@ CREATE TABLE IF NOT EXISTS sponsorship (
     service          	TEXT         DEFAULT NULL,
     link          		TEXT         DEFAULT NULL
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Opt-in, two-tier app telemetry. Identity always gets a row (Basic or Full both write it);
+CREATE TABLE IF NOT EXISTS telemetry_daily_active (
+    day            DATE NOT NULL,
+    user_id        CHAR(32) NOT NULL,
+    level          ENUM('basic', 'full') NOT NULL DEFAULT 'basic',
+    app_version    VARCHAR(20) NOT NULL,
+    distribution   VARCHAR(10) NOT NULL,
+    os_version     VARCHAR(100) NOT NULL,
+    language       VARCHAR(10) NOT NULL,
+    total_input_events   BIGINT UNSIGNED NOT NULL DEFAULT 0,
+    total_uptime_seconds BIGINT UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (day, user_id),
+    INDEX idx_day (day)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS telemetry_feature_daily (
+    day                          DATE NOT NULL,
+    user_id                      CHAR(32) NOT NULL,
+    grid_rows                    TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    grid_columns                 TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    colors_customized            TINYINT(1) NOT NULL DEFAULT 0,
+    fonts_customized             TINYINT(1) NOT NULL DEFAULT 0,
+    rainbow_background_enabled   TINYINT(1) NOT NULL DEFAULT 0,
+    rainbow_speed_seconds        TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    panels_configured_count      SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+    panels_using_key_input       SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+    panels_using_mouse_input     SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+    panels_using_wheel_input     SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+    panels_using_gamepad_input   SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+    gamepad_trigger_threshold    TINYINT UNSIGNED NOT NULL DEFAULT 25,
+    autostart_enabled            TINYINT(1) NOT NULL DEFAULT 0,
+    start_minimized              TINYINT(1) NOT NULL DEFAULT 0,
+    shortcuts_customized         TINYINT(1) NOT NULL DEFAULT 0,
+    tutorial_completed           TINYINT(1) NOT NULL DEFAULT 0,
+    total_key_presses            BIGINT UNSIGNED NOT NULL DEFAULT 0,
+    total_mouse_clicks           BIGINT UNSIGNED NOT NULL DEFAULT 0,
+    total_wheel_ticks            BIGINT UNSIGNED NOT NULL DEFAULT 0,
+    total_gamepad_presses        BIGINT UNSIGNED NOT NULL DEFAULT 0,
+    total_uptime_seconds         BIGINT UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (day, user_id),
+    CONSTRAINT fk_telemetry_feature_daily_identity
+        FOREIGN KEY (day, user_id)
+        REFERENCES telemetry_daily_active (day, user_id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
