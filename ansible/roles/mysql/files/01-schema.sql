@@ -1,10 +1,6 @@
 -- mysql-init/01-schema.sql
-
-CREATE DATABASE IF NOT EXISTS clickykeys
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
-
-USE clickykeys;
+--
+-- Environment-agnostic schema. Do NOT hardcode a database name here 
 
 CREATE TABLE IF NOT EXISTS page_views (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
