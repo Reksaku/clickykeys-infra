@@ -58,7 +58,7 @@
     name: "{{ item.mysql_user_name }}"
     password: "{{ item.mysql_user_password }}"
     priv: "{{ item.mysql_database }}.*:ALL"
-    host: localhost
+    host: "%"
     state: present
     login_user: root
     login_password: "{{ mysql_root_password }}"
