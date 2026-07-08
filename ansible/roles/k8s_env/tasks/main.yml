@@ -36,6 +36,16 @@
     KUBECONFIG: /home/ubuntu/.kube/config
   no_log: true
 
+- name: Create backend credentials Secret
+  shell: |
+    kubectl create secret generic backend-credentials \
+      --from-literal=MESSAGES_CURSOR_SECRET="{{ env.messages_cursor_secret }}" \
+      --namespace="{{ env.namespace }}" \
+      --dry-run=client -o yaml | kubectl apply -f -
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+  no_log: false
+
 - name: Apply MySQL Service and Endpoints
   shell: "kubectl apply -f /home/ubuntu/manifests/{{ env.name }}/service-mysql.yml"
   become_user: ubuntu

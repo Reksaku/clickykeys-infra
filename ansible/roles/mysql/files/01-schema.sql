@@ -129,3 +129,31 @@ CREATE TABLE IF NOT EXISTS telemetry_feature_daily (
         REFERENCES telemetry_daily_active (day, user_id)
         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS messages (
+    id                   INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    type                 ENUM('announcement','news') NOT NULL DEFAULT 'announcement',
+    title                VARCHAR(200)  NOT NULL,
+    body                 TEXT          NOT NULL,
+    is_published         TINYINT UNSIGNED	NOT NULL DEFAULT 0,
+    publish_at           DATETIME      NOT NULL,
+    expires_at           DATETIME      NULL DEFAULT NULL,
+    target_distributions SET('store','github','dev') NULL DEFAULT NULL,
+
+    version_min_major    INT UNSIGNED  NULL DEFAULT NULL,
+    version_min_minor    INT UNSIGNED  NULL DEFAULT NULL,
+    version_min_patch    INT UNSIGNED  NULL DEFAULT NULL,
+
+    version_max_major    INT UNSIGNED  NULL DEFAULT NULL,
+    version_max_minor    INT UNSIGNED  NULL DEFAULT NULL,
+    version_max_patch    INT UNSIGNED  NULL DEFAULT NULL,
+
+    link_label           VARCHAR(100)  NULL DEFAULT NULL,
+    link_url             VARCHAR(500)  NULL DEFAULT NULL,
+
+    created_at           TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+    KEY idx_delivery (is_published, publish_at),
+    KEY idx_expires (expires_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

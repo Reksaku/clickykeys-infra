@@ -49,6 +49,11 @@ spec:
                 secretKeyRef:
                   name: mysql-credentials
                   key: MYSQL_PASSWORD
+            - name: MESSAGES_CURSOR_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: backend-credentials
+                  key: MESSAGES_CURSOR_SECRET
           resources:
             requests:
               cpu: "100m"

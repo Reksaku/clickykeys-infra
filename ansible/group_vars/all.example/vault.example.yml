@@ -25,3 +25,6 @@ vault_grafana_cloud_metrics_username: CHANGE_ME
 vault_grafana_cloud_logs_url: CHANGE_ME
 vault_grafana_cloud_logs_username: CHANGE_ME
 vault_grafana_cloud_api_key: CHANGE_ME
+
+# ── Backend ──
+vault_messages_cursor_secret: CHANGE_ME

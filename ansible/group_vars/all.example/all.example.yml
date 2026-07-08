@@ -21,6 +21,7 @@ environments:
     mysql_database: "{{ vault_prod_mysql_database }}"
     mysql_user_name: "{{ vault_prod_mysql_user_name }}"
     mysql_user_password: "{{ vault_prod_mysql_user_password }}"
+    messages_cursor_secret: "{{ vault_messages_cursor_secret }}" # Backend secret is the same for staging and production, since they share the same database.
     web_image_tag: latest
     php_image_tag: latest
     php_replicas: 2
@@ -32,6 +33,7 @@ environments:
     mysql_database: "{{ vault_staging_mysql_database }}"
     mysql_user_name: "{{ vault_staging_mysql_user_name }}"
     mysql_user_password: "{{ vault_staging_mysql_user_password }}"
+    messages_cursor_secret: "{{ vault_messages_cursor_secret }}" # Backend secret is the same for staging and production, since they share the same database.
     web_image_tag: latest
     php_image_tag: latest
     php_replicas: 1
