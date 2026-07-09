@@ -104,6 +104,8 @@ CREATE TABLE IF NOT EXISTS telemetry_feature_daily (
     user_id                      CHAR(32) NOT NULL,
     grid_rows                    SMALLINT UNSIGNED NOT NULL DEFAULT 0,
     grid_columns                 SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+    panel_width                  SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+    panel_height                 SMALLINT UNSIGNED NOT NULL DEFAULT 0,
     colors_customized            TINYINT(1) NOT NULL DEFAULT 0,
     fonts_customized             TINYINT(1) NOT NULL DEFAULT 0,
     rainbow_background_enabled   TINYINT(1) NOT NULL DEFAULT 0,

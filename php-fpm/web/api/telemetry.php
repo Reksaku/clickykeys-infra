@@ -87,6 +87,8 @@ function telemetry_validate_feature(mixed $feature): ?array
     return [
         'grid_rows'                  => $int($feature['grid_rows'] ?? null, 1, 20),
         'grid_columns'               => $int($feature['grid_columns'] ?? null, 1, 20),
+        'panel_width'                => $int($feature['panel_width'] ?? null, 1, 1000),
+        'panel_height'               => $int($feature['panel_height'] ?? null, 1, 1000),
         'colors_customized'          => $bool($feature['colors_customized'] ?? null),
         'fonts_customized'           => $bool($feature['fonts_customized'] ?? null),
         'rainbow_background_enabled' => $bool($feature['rainbow_background_enabled'] ?? null),
@@ -222,7 +224,7 @@ try {
     if ($feature !== null) {
         $stmt = $pdo->prepare("
             INSERT INTO telemetry_feature_daily (
-                day, user_id, grid_rows, grid_columns, colors_customized,
+                day, user_id, grid_rows, grid_columns, panel_width, panel_height, colors_customized,
                 fonts_customized, rainbow_background_enabled, rainbow_speed_seconds,
                 panels_configured_count, panels_using_key_input, panels_using_mouse_input,
                 panels_using_wheel_input, panels_using_gamepad_input,
@@ -231,7 +233,7 @@ try {
                 total_mouse_clicks, total_wheel_ticks, total_gamepad_presses,
                 total_uptime_seconds
             ) VALUES (
-                CURDATE(), :user_id, :grid_rows, :grid_columns, :colors_customized,
+                CURDATE(), :user_id, :grid_rows, :grid_columns, :panel_width, :panel_height, :colors_customized,
                 :fonts_customized, :rainbow_background_enabled, :rainbow_speed_seconds,
                 :panels_configured_count, :panels_using_key_input, :panels_using_mouse_input,
                 :panels_using_wheel_input, :panels_using_gamepad_input,
@@ -242,6 +244,7 @@ try {
             )
             ON DUPLICATE KEY UPDATE
                 grid_rows = VALUES(grid_rows), grid_columns = VALUES(grid_columns),
+                panel_width = VALUES(panel_width), panel_height = VALUES(panel_height),
                 colors_customized = VALUES(colors_customized),
                 fonts_customized = VALUES(fonts_customized),
                 rainbow_background_enabled = VALUES(rainbow_background_enabled),
