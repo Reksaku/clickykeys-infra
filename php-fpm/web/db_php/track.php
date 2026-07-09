@@ -104,13 +104,12 @@ elseif (stripos($userAgent, 'linux') !== false) $os = 'Linux';
 elseif (stripos($userAgent, 'mac os') !== false || stripos($userAgent, 'macintosh') !== false) $os = 'macOS';
 
 $path = $data['path'] ?? '/';
-if (
-    !(
-        str_starts_with($path, "/pl") ||
-        str_starts_with($path, "/?utm_source") ||
-	    $path === "/"
-    )
-) {
+
+$stmt = $pdo->prepare("SELECT 1 FROM web_path WHERE path = ? LIMIT 1");
+$stmt->execute([$path]);
+$exists = (bool) $stmt->fetchColumn();
+
+if (!$exists) {
     $path = "invalid($path)";
 }
 
