@@ -1,4 +1,4 @@
-FROM nginx:1.29.8-alpine
+FROM nginx:1.31.2-alpine
 
 # Remove default nginx page
 RUN rm -rf /usr/share/nginx/html/*
